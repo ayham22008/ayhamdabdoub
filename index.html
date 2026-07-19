@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ayham Dabdoub | Portfolio</title>
+
+    <link rel="stylesheet" href="style2.css">
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header>
+
+<nav>
+
+<h2 class="logo">
+    AYHAM<span>.</span>
+</h2>
+
+
+<div class="nav-actions">
+
+<button id="theme-btn" type="button" aria-label="Toggle theme">
+🌙
+</button>
+
+<button id="nav-burger" type="button" aria-label="Toggle menu">
+<span></span><span></span><span></span>
+</button>
+
+<ul id="nav-links">
+
+<li><a href="#home">Home</a></li>
+
+<li><a href="#about">About</a></li>
+
+<li><a href="#gallery">Gallery</a></li>
+
+<li><a href="#skills">Skills</a></li>
+
+<li><a href="#designs">Designs</a></li>
+
+<li><a href="#projects">Projects</a></li>
+
+<li><a href="#models">3D Models</a></li>
+
+<li><a href="#contact-us">Contact</a></li>
+
+</ul>
+
+
+</div>
+
+
+</nav>
+
+</header>
+
+
+<!-- ================= HERO SECTION ================= -->
+
+<section class="hero" id="home">
+
+
+    <div class="hero-text" data-aos="fade-right">
+
+
+        <h1>
+            Hi, I'm 
+            <span>Ayham Nidal Dabdoub</span>
+        </h1>
+
+
+
+        <h2>
+            Graphic Designer | Game Developer | 
+            3D Artist | UI/UX Designer
+        </h2>
+
+
+
+
+        <p>
+
+            I am a Computer Graphics and Animation graduate 
+            from Al-Balqa Applied University. 
+            I specialize in creating digital experiences 
+            through graphic design, game development, 
+            3D modeling, animation, and interactive media.
+
+        </p>
+
+
+
+
+        <div class="buttons">
+
+            <a href="cv.pdf" 
+               class="btn-cv"
+               download>
+
+                Download CV
+
+            </a>
+
+
+
+        </div>
+
+
+
+
+        <div class="hero-skills">
+
+
+            <div>
+                <i class="fa-solid fa-gamepad"></i>
+                Unity & C#
+            </div>
+
+
+
+            <div>
+                <i class="fa-solid fa-cube"></i>
+                3D Modeling
+            </div>
+
+
+
+            <div>
+                <i class="fa-solid fa-pen-nib"></i>
+                Graphic Design
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+    <div class="hero-image" data-aos="fade-left">
+
+
+        <div class="image-box">
+
+            <img src="images/profile.png" 
+                 alt="Ayham Nidal Dabdoub">
+
+        </div>
+
+
+
+    </div>
+
+
+
+</section>
+
+
+<!-- ================= GALLERY SECTION (rotating 3D carousel) ================= -->
+
+<section class="gallery" id="gallery">
+
+    <div class="section-title" data-aos="fade-up">
+        <h1>Photo <span>Gallery</span></h1>
+        <p>A quick look through the lens — drag, swipe, or let it spin on its own.</p>
+    </div>
+
+    <div class="carousel-3d" id="galleryCarousel">
+
+        <button class="carousel-arrow prev" id="carouselPrev" aria-label="Previous photo">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="carousel-stage" id="carouselStage">
+            <!-- 10 items injected by JS: images/gallery/1.jpg ... 10.jpg -->
+        </div>
+
+        <button class="carousel-arrow next" id="carouselNext" aria-label="Next photo">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+    </div>
+
+    <div class="carousel-dots" id="carouselDots"></div>
+
+    <p class="carousel-hint"><i class="fa-solid fa-arrows-left-right"></i> Drag to spin the gallery</p>
+
+</section>
+
+
+<!-- ================= ABOUT SECTION ================= -->
+
+<section class="about" id="about">
+
+
+    <div class="about-title" data-aos="fade-up">
+
+
+        <h1>
+            About <span>Me</span>
+        </h1>
+
+
+
+        <p>
+
+            A Computer Graphics and Animation graduate passionate about
+            creating creative digital experiences through design,
+            technology, and interactive media.
+
+        </p>
+
+
+    </div>
+
+
+
+
+
+    <div class="about-content">
+
+
+
+        <div class="about-text" data-aos="fade-right">
+
+
+
+            <h2>
+                Who I Am
+            </h2>
+
+
+
+
+            <p>
+
+                My name is Ayham Nidal Dabdoub. I am a graduate of 
+                Al-Balqa Applied University (BAU), Prince Abdullah Bin Ghazi 
+                Faculty of ICT, with a Bachelor's degree in Computer Graphics 
+                and Animation.
+
+            </p>
+
+
+
+
+            <p>
+
+                During my university journey, I developed experience in 
+                graphic design, UI/UX design, 3D modeling, animation, 
+                and game development. I worked on different creative and 
+                technical projects that helped me combine artistic vision 
+                with programming and interactive technologies.
+
+            </p>
+
+
+
+
+            <p>
+
+                My graduation project, 
+                <strong>"War Of Knowledge"</strong>, is an educational 
+                strategy game developed using Unity Engine and C#. 
+                The project combines storytelling, game mechanics, 
+                user interface design, and educational content.
+
+            </p>
+
+
+
+
+            <p>
+
+                I also have experience working as a team leader and 
+                project manager, where I developed strong skills in 
+                teamwork, communication, problem solving, time management, 
+                and organizing creative projects from idea to final result.
+
+            </p>
+
+
+
+
+        </div>
+
+
+
+
+
+
+        <div class="skills" data-aos="fade-left">
+
+
+
+            <h2>
+                My Skills
+            </h2>
+
+
+
+
+            <div class="skill-box">
+
+
+                <div>
+                    <h3><span class="skill-emoji">🎨</span> Graphic Design</h3>
+                    <p>
+                        Branding, Logo Design, UI Design,
+                        Adobe Illustrator, Photoshop
+                    </p>
+                </div>
+
+
+                <div>
+                    <h3><span class="skill-emoji">🧊</span> 3D Art & Animation</h3>
+                    <p>
+                        Blender, Autodesk Maya, 3ds Max,
+                        Modeling, Rendering, Animation
+                    </p>
+                </div>
+
+
+                <div>
+                    <h3><span class="skill-emoji">🎮</span> Game Development</h3>
+                    <p>
+                        Unity Engine, C#, Game Mechanics,
+                        Interactive Systems
+                    </p>
+                </div>
+
+
+                <div>
+                    <h3><span class="skill-emoji">🌐</span> Web & Digital Development</h3>
+                    <p>
+                        HTML, CSS, JavaScript,
+                        UI/UX Design, Android Design
+                    </p>
+                </div>
+
+
+                <div>
+                    <h3><span class="skill-emoji">👥</span> Professional Skills</h3>
+                    <p>
+                        Team Leadership, Project Management,
+                        Time Management, Communication,
+                        Problem Solving
+                    </p>
+                </div>
+
+                <div>
+                    <h3><span class="skill-emoji">🧠</span> Creative Problem Solving & Management</h3>
+                    <p>
+                        Project Planning, Team Leadership,
+                        Creative Thinking, Workflow Organization,
+                        Problem Solving
+                    </p>
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</section>
+
+<section class="calender">
+ <div class="calendar-container">
+      <div class="calendar-header">
+        <button onclick="prevMonth()">&#10094;</button>
+        <h2 id="monthYear"></h2>
+        <button onclick="nextMonth()">&#10095;</button>
+      </div>
+      <div class="calendar-grid" id="calendar"></div>
+
+      <div id="legend" class="legend"></div>
+
+      <div class="event-list">
+        <h3>الأحداث القادمة</h3>
+        <div id="events"></div>
+        
+      </div>
+
+      
+    </div>
+
+    <div id="eventModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 id="modalDate"></h2>
+        <p id="modalEvent"></p>
+      </div>
+    </div>
+</section>
+
+<section class="software">
+
+    <h2>
+        Software I Use
+    </h2>
+
+
+    <div class="software-icons">
+
+
+        <div class="software-card">
+            <img src="images/illustrator.png" alt="Adobe Illustrator" data-fallback="🖊️">
+            <p>Illustrator</p>
+        </div>
+
+
+        <div class="software-card">
+            <img src="images/photoshop.png" alt="Adobe Photoshop" data-fallback="🖌️">
+            <p>Photoshop</p>
+        </div>
+
+
+        <div class="software-card">
+            <img src="images/after effect.png" alt="Adobe After Effects" data-fallback="🎞️">
+            <p>After Effects</p>
+        </div>
+
+
+        <div class="software-card">
+            <img src="images/premiere.png" alt="Adobe Premiere Pro" data-fallback="🎬">
+            <p>Premiere Pro</p>
+        </div>
+
+
+        <div class="software-card">
+            <img src="images/blender.png" alt="Blender" data-fallback="🧊">
+            <p>Blender</p>
+        </div>
+
+
+        <div class="software-card">
+            <img src="images/maya.png" alt="Autodesk Maya" data-fallback="🧊">
+            <p>Maya</p>
+        </div>
+
+
+        <div class="software-card">
+            <img src="images/3d max.png" alt="3ds Max" data-fallback="🧊">
+            <p>3D Max</p>
+        </div>
+
+
+        <div class="software-card">
+            <img src="images/unity.png" alt="Unity Engine" data-fallback="🎮">
+            <p>Unity</p>
+        </div>
+
+
+        <div class="software-card">
+            <img src="images/unreal.png" alt="Unreal Engine" data-fallback="🎮">
+            <p>Unreal Engine</p>
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- ================= SKILLS SECTION ================= -->
+
+<section class="skills-section" id="skills">
+
+
+    <div class="section-title">
+
+
+        <h1>
+            My <span>Skills</span>
+        </h1>
+
+
+
+        <p>
+
+            A combination of creativity, technology, and leadership skills
+            developed through academic projects, game development,
+            and real-world creative experiences.
+
+        </p>
+
+
+
+    </div>
+
+
+    <div class="skills-container">
+
+
+        <div class="skill-card" data-aos="fade-up">
+            <div class="skill-icon">🎨</div>
+            <h2>Graphic Design</h2>
+            <p>
+                Creating logos, branding, visual identities,
+                posters, and digital illustrations using
+                Adobe Illustrator and Photoshop.
+            </p>
+        </div>
+
+
+        <div class="skill-card" data-aos="fade-up">
+            <div class="skill-icon">🖥️</div>
+            <h2>UI/UX Design</h2>
+            <p>
+                Designing modern interfaces, user experiences,
+                layouts, prototypes, and interactive designs
+                focused on usability and visual quality.
+            </p>
+        </div>
+
+
+        <div class="skill-card" data-aos="fade-up">
+            <div class="skill-icon">🧊</div>
+            <h2>3D Modeling & Animation</h2>
+            <p>
+                Creating 3D models, environments,
+                textures, lighting, and animations using
+                Blender, Autodesk Maya, and 3ds Max.
+            </p>
+        </div>
+
+
+        <div class="skill-card" data-aos="fade-up">
+            <div class="skill-icon">🎮</div>
+            <h2>Game Development</h2>
+            <p>
+                Developing interactive games using Unity Engine
+                and C#. Experience with gameplay systems,
+                mechanics, and interactive experiences.
+            </p>
+        </div>
+
+
+        <div class="skill-card" data-aos="fade-up">
+            <div class="skill-icon">🌐</div>
+            <h2>Web Development</h2>
+            <p>
+                Building responsive websites using HTML,
+                CSS, JavaScript, and modern UI design
+                principles.
+            </p>
+        </div>
+
+
+        <div class="skill-card" data-aos="fade-up">
+            <div class="skill-icon">🎬</div>
+            <h2>Video Production</h2>
+            <p>
+                Professional video editing, motion graphics,
+                visual effects, and animation production using
+                Premiere Pro and After Effects.
+            </p>
+        </div>
+
+
+        <div class="skill-card" data-aos="fade-up">
+            <div class="skill-icon">👥</div>
+            <h2>Team Leadership & Management</h2>
+            <p>
+                Leading creative teams, organizing workflows,
+                managing projects, communication,
+                and delivering tasks efficiently.
+            </p>
+        </div>
+
+
+        <div class="skill-card" data-aos="fade-up">
+            <div class="skill-icon">🚀</div>
+            <h2>Problem Solving & Creativity</h2>
+            <p>
+                Analyzing challenges, developing creative
+                solutions, adapting to new technologies,
+                and improving project quality.
+            </p>
+        </div>
+
+        <div class="skill-card" data-aos="fade-up">
+            <div class="skill-icon">📱</div>
+            <h2>Android & Mobile Design</h2>
+            <p>
+                Designing mobile applications with focus on
+                user interface, user experience, responsive layouts,
+                and interactive mobile solutions.
+            </p>
+        </div>
+
+
+    </div>
+
+
+
+</section>
+
+
+<!-- ================= DESIGNS SECTION (logos & designs gallery) ================= -->
+
+<section class="designs" id="designs">
+
+    <div class="section-title" data-aos="fade-up">
+        <h1>Logos & <span>Designs</span></h1>
+        <p>Branding, logo marks, and visual identity work — click any piece to view it larger.</p>
+    </div>
+
+    <div class="designs-grid" id="designsGrid">
+        <!-- 8 design tiles injected by JS from images/designs/1.png ... 8.png -->
+    </div>
+
+</section>
+
+
+<!-- ================= PROJECTS SECTION ================= -->
+
+<section class="projects" id="projects">
+
+
+    <div class="section-title">
+
+
+        <h1>
+            My <span>Projects</span>
+        </h1>
+
+
+
+        <p>
+
+            A collection of creative and technical projects that
+            demonstrate my experience in design, development,
+            animation, and interactive digital experiences.
+
+        </p>
+
+
+
+    </div>
+
+
+
+    <div class="projects-container">
+
+
+        <!-- Project 1 -->
+
+        <div class="project-card" data-aos="fade-up">
+
+            <div class="project-image">
+                <img src="images/war of knowledge.png" alt="War of Knowledge" data-fallback="🎮">
+            </div>
+
+            <div class="project-info">
+
+                <h2>War Of Knowledge</h2>
+
+                <p>
+                    My graduation project, a 2D educational strategy
+                    game developed using Unity Engine and C#.
+                    Players answer knowledge questions, collect
+                    Intelligence Units, and conquer kingdoms in
+                    the world of Wisdom Land.
+                </p>
+
+                <div class="project-tags">
+                    <span>Unity</span>
+                    <span>C#</span>
+                    <span>Game Design</span>
+                    <span>UI Design</span>
+                </div>
+
+                <a href="projects.html" class="project-btn">View Project</a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Project 2 -->
+
+        <div class="project-card" data-aos="fade-up">
+
+            <div class="project-image">
+                <img src="images/logo.png" alt="BAU Website" data-fallback="🌐">
+            </div>
+
+            <div class="project-info">
+
+                <h2>BAU Website UI Design</h2>
+
+                <p>
+                    Worked on designing and improving website
+                    interfaces for Al-Balqa Applied University,
+                    focusing on front-end styling, user experience,
+                    and modern visual layouts.
+                </p>
+
+                <div class="project-tags">
+                    <span>HTML</span>
+                    <span>CSS</span>
+                    <span>UI/UX</span>
+                    <span>Front-End</span>
+                </div>
+
+                <a href="#" class="project-btn">View Project</a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Project 3 -->
+
+       <div class="project-card glass-panel" data-aos="fade-up">
+    
+    <div class="project-visual project-image">
+        <video 
+            src="images/3d ship.mp4" 
+            alt="3D Modeling & Animation" 
+            autoplay 
+            loop 
+            muted 
+            playsinline 
+            width="350" 
+            height="350">
+        </video>
+        <div class="project-visual-overlay"></div>
+    </div>
+    <div class="project-meta project-info">
+        <h2 class="project-title">3D Modeling & Animation</h2>
+        
+        <p class="project-desc">
+            Created 3D models, environments, characters, and animations using
+            Blender, Autodesk Maya, and 3ds Max. Focused on modeling, lighting,
+            materials, and visual storytelling.
+        </p>
+
+        <div class="tech-tags project-tags">
+            <span class="tech-tag">Blender</span>
+            <span class="tech-tag">Maya</span>
+            <span class="tech-tag">3ds Max</span>
+            <span class="tech-tag">Animation</span>
+        </div>
+
+        <a href="#" class="btn btn-secondary project-btn">View Gallery</a>
+    </div>
+
+</div>
+
+        
+
+
+        <!-- Project 4 -->
+
+        <div class="project-card" data-aos="fade-up">
+
+            <div class="project-image">
+                <img src="images/11.png" alt="Branding Design" data-fallback="🎨">
+            </div>
+
+            <div class="project-info">
+
+                <h2>Branding & Logo Design</h2>
+
+                <p>
+                    Designed professional logos,
+                    visual identities, posters,
+                    and marketing materials while
+                    focusing on creativity and brand
+                    communication.
+                </p>
+
+                <div class="project-tags">
+                    <span>Illustrator</span>
+                    <span>Photoshop</span>
+                    <span>Branding</span>
+                </div>
+
+                <a href="#" class="project-btn">View Designs</a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Project 5 -->
+
+       <div class="project-card glass-panel" data-aos="fade-up">
+    <div class="project-visual project-image">
+        <video 
+            src="images/ayham intro shot.mp4" 
+            alt="Video Production" 
+            autoplay 
+            loop 
+            muted 
+            playsinline 
+            width="350" 
+            height="350">
+        </video>
+        <div class="project-visual-overlay"></div>
+    </div>
+    <div class="project-meta project-info">
+        <h2 class="project-title">Video Production & Motion Graphics</h2>
+        <p class="project-desc">
+            Produced edited videos, motion graphics, and visual effects 
+            using Adobe Premiere Pro and After Effects for creative media projects.
+        </p>
+        <div class="tech-tags project-tags">
+            <span class="tech-tag">Premiere Pro</span>
+            <span class="tech-tag">After Effects</span>
+            <span class="tech-tag">Motion Graphics</span>
+        </div>
+        <a href="#" class="btn btn-secondary project-btn">View Project</a>
+    </div>
+</div>
+        <!-- Project 6 -->
+
+        <div class="project-card" data-aos="fade-up">
+
+            <div class="project-image">
+                <img src="images/story.png" alt="Script Writing & Content Creation" data-fallback="✍️">
+            </div>
+
+            <div class="project-info">
+
+                <h2>Script Writing & Content Creation</h2>
+
+                <p>
+                    Created creative scripts, story concepts,
+                    and digital content for different media projects.
+                    Experienced in developing storylines, character
+                    backgrounds, scene descriptions, and engaging
+                    narratives that support visual storytelling.
+                </p>
+
+                <div class="project-tags">
+                    <span>Script Writing</span>
+                    <span>Storytelling</span>
+                    <span>Content Creation</span>
+                    <span>Creative Writing</span>
+                </div>
+
+                <a href="#" class="project-btn">View Project</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= 3D MODELS SECTION ================= -->
+
+<section class="models" id="models">
+
+    <div class="section-title" data-aos="fade-up">
+        <h1>3D <span>Objects</span></h1>
+        <p>Explore my 3D work two ways — spin real models live in the browser, or browse background‑free renders.</p>
+    </div>
+
+    <div class="models-tabs" data-aos="fade-up">
+        <button class="models-tab active" data-tab="viewer">
+            <i class="fa-solid fa-cube"></i> Live 3D Viewer 
+        </button>
+    </div>
+
+    <!-- Live viewer panel -->
+    <div class="models-panel" id="panel-viewer" data-aos="fade-up">
+
+        <div class="viewer-wrap">
+            <div class="viewer-canvas-box">
+                <canvas id="modelCanvas"></canvas>
+                <div class="viewer-overlay" id="viewerOverlay">
+                    <span>No model loaded — showing preview shape</span>
+                </div>
+                <div class="viewer-controls">
+                    <button id="autoRotateBtn" class="viewer-btn active" title="Toggle auto-rotate">
+                        <i class="fa-solid fa-rotate"></i>
+                    </button>
+                    <button id="resetViewBtn" class="viewer-btn" title="Reset view">
+                        <i class="fa-solid fa-arrows-to-circle"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <p class="viewer-hint">
+            <i class="fa-solid fa-computer-mouse"></i>
+            Drag to rotate · Scroll to zoom · Right-click drag to pan
+        </p>
+
+    </div>
+
+    <!-- Renders panel -->
+    <div class="models-panel" id="panel-renders" style="display:none;" data-aos="fade-up">
+
+        <div class="renders-grid" id="rendersGrid">
+            <!-- 6 render tiles injected by JS from images/models/render-1.png ... 6.png -->
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= LIGHTBOX (shared) ================= -->
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+    <img src="" alt="" id="lightboxImage">
+</div>
+
+
+<div class="bottom-bar">
+      <div class="Contact-Us" id="contact-us">
+        <h3>Contact me</h3>
+        <h1>
+        <span>Ayham Nidal Dabdoub</span>
+        </h1><br><br>
+
+        <a href="tel:+962790062346"><i class="fa fa-phone" aria-hidden="true"></i></a>
+        <a href="https://www.facebook.com/ayham.dabdoub.5/"><i class="fa-brands fa-facebook"></i></a>
+        <a href="https://www.instagram.com/ayham.dabdoub/"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://api.whatsapp.com/send/?phone=962790062346&text=Hi+Ayham%21+I+found+your+portfolio+and+would+like+to+contact+you.&type=phone_number&app_absent=0"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="https://www.linkedin.com/in/ayham-nidal-dabdoub-54457a252/"><i class="fa-brands fa-linkedin"></i></a>
+      </div>
+      <a href="clod portfolio.html"><img src="images/profile.png" alt="Ayham Nidal Dabdoub" class="logo"></a>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
+<script>
+AOS.init({
+    duration: 1000,
+    once: true,
+    offset: 100
+});
+</script>
+
+<script src="app2.js"></script>
+<script src="calenderjv.js" defer></script>
+
+  <script src="events.js"></script>
+
+</body>
+
+</html>
