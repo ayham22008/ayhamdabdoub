@@ -201,7 +201,115 @@ body.nav-open #nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
 .carousel-dots span.active{background:var(--accent); transform:scale(1.3);}
 .carousel-hint{text-align:center; margin-top:10px; color:var(--ink-faint); font-size:0.82rem;}
 .carousel-hint i{margin-right:6px;}
+/* ==========================================
+   3D CAROUSEL RESPONSIVE
+========================================== */
 
+@media (max-width: 992px) {
+
+  .carousel-3d{
+    padding-top:100px;
+    height:280px;
+  }
+
+  .carousel-stage{
+    width:360px;
+    height:420px;
+  }
+
+  .carousel-arrow{
+    width:40px;
+    height:40px;
+  }
+
+  .carousel-dots{
+    margin-top:120px;
+  }
+
+}
+
+
+@media (max-width: 768px) {
+
+  .carousel-3d{
+    padding-top:70px;
+    height:240px;
+    gap:10px;
+  }
+
+  .carousel-stage{
+    width:280px;
+    height:340px;
+  }
+
+  .carousel-item{
+    border-radius:14px;
+  }
+
+  .carousel-arrow{
+    width:36px;
+    height:36px;
+    font-size:.9rem;
+  }
+
+  .carousel-dots{
+    margin-top:90px;
+    gap:6px;
+  }
+
+  .carousel-dots span{
+    width:6px;
+    height:6px;
+  }
+
+  .carousel-hint{
+    margin-top:8px;
+    font-size:.75rem;
+    padding:0 12px;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .carousel-3d{
+    padding-top:50px;
+    height:210px;
+    gap:8px;
+  }
+
+  .carousel-stage{
+    width:220px;
+    height:280px;
+  }
+
+  .carousel-item{
+    border-radius:12px;
+  }
+
+  .carousel-arrow{
+    width:32px;
+    height:32px;
+    font-size:.8rem;
+  }
+
+  .carousel-dots{
+    margin-top:70px;
+    gap:5px;
+  }
+
+  .carousel-dots span{
+    width:5px;
+    height:5px;
+  }
+
+  .carousel-hint{
+    font-size:.7rem;
+    padding:0 10px;
+  }
+
+}
 /* ---------------------------------------------------------
    ABOUT
 --------------------------------------------------------- */
