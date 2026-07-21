@@ -166,10 +166,10 @@ body.nav-open #nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-4
 /* ---------------------------------------------------------
    GALLERY — 3D rotating carousel
 --------------------------------------------------------- */
-.gallery{background:var(--bg-soft);}
+.gallery{background:var(--bg-soft); overflow:hidden;}
 .carousel-3d{padding-top: 150px;
   position:relative; display:flex; align-items:center; justify-content:center;
-  height:340px; perspective:1200px; touch-action:pan-y;
+  height:340px; perspective:1200px; touch-action:pan-y;  overflow:hidden;
 }
 .carousel-stage{
   position:relative; width:520px; height:580px; transform-style:preserve-3d; cursor:grab;
