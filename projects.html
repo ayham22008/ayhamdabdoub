@@ -1,61 +1,951 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>War of Knowledge — حرب المعرفة | Graduation Project by [ayham dabdoub]</title>
+<meta name="description" content="War of Knowledge is an educational strategy game where four kingdoms battle for the future of Wisdom Land through the power of knowledge. A graduation project by [Your Name].">
 
-    <title>Ayham Dabdoub | Portfolio</title>
+<!-- ================= FAVICON ================= -->
+<link rel="icon" href="images/war of knowledge.png" type="image/png">
 
-    <link rel="stylesheet" href="style2.css">
+<!-- ================= FONTS ================= -->
+<!-- Cinzel: epic, carved, inscription-like display face for an ancient/legendary feel -->
+<!-- Cairo: clean geometric face with native Arabic support for body copy & bilingual labels -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<!-- ================= FONT AWESOME ================= -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- ================= AOS (Animate On Scroll) ================= -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css">
 
+<!-- ================= PAGE STYLES ================= -->
+<link rel="stylesheet" href="style2.css">
 </head>
 
-
-<body>
-
-<!-- ================= NAVBAR ================= -->
-
-<header>
-
-<nav>
-
-<h2 class="logo">
-    AYHAM<span>.</span>
-</h2>
+<body id="top">
 
 
-<div class="nav-actions">
 
-<button id="theme-btn" type="button" aria-label="Toggle theme">
-🌙
-</button>
+<!-- =========================================================
+     BACKGROUND LAYERS — particle canvas + geometric pattern
+========================================================= -->
+<canvas id="particleCanvas" class="wok-particles" aria-hidden="true"></canvas>
+<div class="wok-pattern-overlay" aria-hidden="true"></div>
 
-<button id="nav-burger" type="button" aria-label="Toggle menu">
-<span></span><span></span><span></span>
-</button>
+<!-- =========================================================
+     NAVIGATION
+========================================================= -->
+<header class="wok-header" id="wokHeader">
+  <nav class="wok-nav">
+    <a href="#top" class="wok-brand">
+      <img src="images/war of knowledge.png" alt="War of Knowledge emblem" class="brand-mark">
+      <span class="brand-text">War of <span class="accent-gold">Knowledge</span></span>
+    </a>
 
-<ul id="nav-links">
+    <button id="navBurger" class="nav-burger" aria-label="Toggle navigation menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
 
-<li><a href="#home">Home</a></li>
+    <div class="nav-links" id="navLinks">
+      <ul>
+        <li><a href="#overview" class="nav-link">Overview</a></li>
+        <li><a href="#story" class="nav-link">Story</a></li>
+        <li><a href="#gameplay-loop" class="nav-link">Gameplay</a></li>
+        <li><a href="#kingdoms" class="nav-link">Kingdoms</a></li>
+        <li><a href="#characters" class="nav-link">Characters</a></li>
+        <li><a href="#gallery" class="nav-link">Gallery</a></li>
+        <li><a href="#models" class="nav-link">3D Models</a></li>
+        <li><a href="#trailer" class="nav-link">Trailer</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <a href="#download" class="btn btn-outline nav-cta">
+        <i class="fa-solid fa-download"></i> Get the Build
+      </a>
+    </div>
+  </nav>
+  <div class="wok-progress-bar" id="scrollProgress" aria-hidden="true"></div>
+</header>
 
-<li><a href="#about">About</a></li>
+<main>
 
-<li><a href="#gallery">Gallery</a></li>
+<!-- =========================================================
+     01 — HERO SECTION
+     Fullscreen cinematic intro, animated logo/title, CTAs
+========================================================= -->
+<section class="section hero-section" id="hero">
+  <div class="hero-bg-video" aria-hidden="true">
+    <div class="hero-bg-gradient"></div>
+    <div class="hero-bg-glow glow-emerald"></div>
+    <div class="hero-bg-glow glow-gold"></div>
+  </div>
 
-<li><a href="#skills">Skills</a></li>
+  <div class="hero-content">
+    <img src="images/war of knowledge.png" alt="War of Knowledge game logo" class="hero-logo" data-aos="zoom-in" data-aos-duration="1200">
 
-<li><a href="#designs">Designs</a></li>
+    <h1 class="hero-title" id="heroTitle">
+      <span class="line reveal-line">WAR OF</span>
+      <span class="line reveal-line accent-emerald">KNOWLEDGE</span>
+    </h1>
 
-<li><a href="#projects">Projects</a></li>
+    <p class="hero-arabic" dir="rtl" data-aos="fade-up" data-aos-delay="400">حرب المعرفة</p>
 
-<li><a href="#models">3D Models</a></li>
+<p class="hero-desc" data-aos="fade-up" data-aos-delay="500">
 
-<li><a href="#contact-us">Contact</a></li>
+<strong>“War of Knowledge”</strong> is an educational strategy game that transforms 
+learning into an epic battle of intelligence, strategy, and critical thinking.
+
+Set in the fictional world of <strong>“Wisdom Land”</strong>, players become rulers of 
+four powerful kingdoms, competing through knowledge-based challenges instead of 
+traditional combat.
+
+Build your kingdom, master strategic decisions, and prove that the greatest power 
+is not strength, but knowledge.
+
+</p>
+
+    <div class="hero-cta-row" data-aos="fade-up" data-aos-delay="650">
+      <a href="https://play.unity.com/en/games/e9352fc9-1366-4527-b862-dfd9087e9b3c/war-of-knowledge" class="btn btn-primary">
+        <i class="fa-solid fa-gamepad"></i> Play the Demo
+      </a>
+      <a href="#trailer" class="btn btn-secondary">
+        <i class="fa-solid fa-play"></i> Watch Trailer
+      </a>
+      <a href="war of knowledge project.pdf" class="btn btn-outline">
+        <i class="fa-solid fa-file-lines"></i> Read Documentation
+      </a>
+    </div>
+
+    <div class="hero-scroll-hint" aria-hidden="true">
+      <span>Scroll</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     02 — PROJECT OVERVIEW
+     Quick-glance production facts as glass cards
+========================================================= -->
+<section class="section" id="overview">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">The Project At a Glance</span>
+    <h2 class="section-title">Project <span class="accent-gold">Overview</span></h2>
+    <p class="section-sub">Everything you need to know about War of Knowledge in eight cards.</p>
+  </div>
+
+  <div class="overview-grid">
+    <div class="glass-card overview-card" data-aos="fade-up" data-aos-delay="0">
+      <i class="fa-solid fa-chess-board"></i>
+      <h3>Genre</h3>
+      <p>Educational Strategy &amp; Trivia RPG</p>
+    </div>
+    <div class="glass-card overview-card" data-aos="fade-up" data-aos-delay="60">
+      <i class="fa-brands fa-unity"></i>
+      <h3>Engine</h3>
+      <p>Unity 6000.3.12f1</p>
+    </div>
+    <div class="glass-card overview-card" data-aos="fade-up" data-aos-delay="120">
+    <i class="fa-brands fa-opera"></i>
+      <h3>Platform</h3>
+      <p>Web &amp; Windows PC</p>
+    </div>
+    <div class="glass-card overview-card" data-aos="fade-up" data-aos-delay="180">
+    <i class="fa-solid fa-people-pulling"></i>
+      <h3>My Role</h3>
+      <p>Game Designer &amp; Lead Developer</p>
+    </div>
+    <div class="glass-card overview-card" data-aos="fade-up" data-aos-delay="240">
+      <i class="fa-solid fa-people-group"></i>
+      <h3>Team Size</h3>
+      <p>4 Members</p>
+    </div>
+    <div class="glass-card overview-card" data-aos="fade-up" data-aos-delay="300">
+      <i class="fa-solid fa-hourglass-half"></i>
+      <h3>Duration</h3>
+      <p>18 Months</p>
+    </div>
+    <div class="glass-card overview-card" data-aos="fade-up" data-aos-delay="360">
+      <i class="fa-solid fa-language"></i>
+      <h3>Languages</h3>
+      <p>Arabic &amp; English</p>
+    </div>
+    <div class="glass-card overview-card" data-aos="fade-up" data-aos-delay="420">
+      <i class="fa-solid fa-circle-check"></i>
+      <h3>Status</h3>
+      <p><span class="status-dot"></span> Completed Prototype</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     03 — INTRODUCTION
+     Project explanation and educational vision
+========================================================= -->
+<section class="section alt-bg" id="introduction">
+  <div class="introduction-grid">
+    <div class="intro-text" data-aos="fade-right">
+      <span class="eyebrow">Why This Project Exists</span>
+      <h2 class="section-title left">Learning Shouldn't Feel Like <span class="accent-emerald">Homework</span></h2>
+      <p>
+        War of Knowledge began as a graduation project with one question: what if studying felt like
+        commanding an army instead of memorizing a textbook? The game reframes revision as strategy —
+        every correct answer captures ground, every mistake costs territory, and every subject becomes
+        a kingdom worth defending.
+      </p>
+      <p>
+        Built around Arabic-Islamic art, architecture, and storytelling traditions, the project blends
+        a respect for heritage with a modern game-design language. It was designed, prototyped, tested
+        with real students, and iterated on across two semesters, from a single paper sketch to a
+        playable Unity build.
+      </p>
+      <p>
+        The educational vision is simple: knowledge should feel earned, visible, and worth fighting for —
+        not because the player is being tested, but because the player is being trusted with a kingdom.
+      </p>
+      <div class="intro-tags">
+        <span><i class="fa-solid fa-graduation-cap"></i> Graduation Project</span>
+        <span><i class="fa-solid fa-brain"></i> Game-Based Learning</span>
+        <span><i class="fa-solid fa-mosque"></i> Cultural Identity</span>
+      </div>
+    </div>
+
+    <div class="intro-visual" data-aos="fade-left">
+      <div class="pattern-frame">
+        <img src="images/intro.png" alt="Concept art of Wisdom Land">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     04 — STORY OF WISDOM LAND
+     Animated vertical/horizontal timeline of the full narrative
+========================================================= -->
+<section class="section" id="story">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">The Legend</span>
+    <h2 class="section-title">Story of <span class="accent-gold">Wisdom Land</span></h2>
+    <p class="section-sub">Seven chapters carry the world from its founding to the moment the player steps in.</p>
+  </div>
+
+<!-- =====================================================
+     STORY OF WISDOM LAND - FULL STORY TIMELINE
+===================================================== -->
+
+<div class="story-timeline">
+
+<div class="timeline-track" aria-hidden="true"></div>
+
+
+
+<!-- CHAPTER I -->
+<div class="story-node" data-aos="fade-up">
+
+<div class="node-marker">
+<i class="fa-solid fa-sun"></i>
+</div>
+
+
+<div class="node-card glass-card">
+
+<span class="node-tag">
+Chapter I
+</span>
+
+<h3>
+The Rise of Wisdom Land
+</h3>
+
+
+<p>
+Long before kingdoms existed, Wisdom Land was a civilization built on intelligence.
+Every person carried Intelligence Units representing their ability to learn, think,
+and solve problems. Knowledge became the greatest resource, shaping cities,
+libraries, and the future of humanity.
+</p>
+
+</div>
+
+</div>
+
+
+
+
+
+
+<!-- CHAPTER II -->
+<div class="story-node" data-aos="fade-up">
+
+<div class="node-marker">
+<i class="fa-solid fa-fire"></i>
+</div>
+
+
+<div class="node-card glass-card">
+
+<span class="node-tag">
+Chapter II
+</span>
+
+
+<h3>
+The First War of Knowledge
+</h3>
+
+
+<p>
+As kingdoms discovered the power of knowledge, ambition replaced cooperation.
+Debates became conflicts, and intellectual challenges became battles. Warriors
+fought using questions instead of weapons, but centuries of conflict eventually
+destroyed Wisdom Land and scattered its nations.
+</p>
+
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+<!-- CHAPTER III -->
+<div class="story-node" data-aos="fade-up">
+
+<div class="node-marker">
+<i class="fa-solid fa-user-group"></i>
+</div>
+
+
+<div class="node-card glass-card">
+
+
+<span class="node-tag">
+Chapter III
+</span>
+
+
+<h3>
+The Arrival of the Four Friends
+</h3>
+
+
+<p>
+In the modern world, four friends discover a mysterious signal that transports them
+into the broken realm of Wisdom Land. Each friend arrives in a different region,
+facing the remains of a world destroyed by the War of Knowledge.
+</p>
+
+
+<p class="small-text">
+Ayham Dabdoub enters the innovative East.
+Baha’a Jarar reaches the frozen North.
+Zaid Sawalha discovers the strategic South.
+Zaid Lallo arrives in the peaceful West.
+
+</p>
+
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- CHAPTER IV -->
+<div class="story-node" data-aos="fade-up">
+
+<div class="node-marker">
+<i class="fa-solid fa-crown"></i>
+</div>
+
+
+
+<div class="node-card glass-card">
+
+
+<span class="node-tag">
+Chapter IV
+</span>
+
+
+<h3>
+The Birth of the Four Kingdoms
+</h3>
+
+
+
+<p>
+Instead of conquering the broken lands, the four friends unite people through
+knowledge, leadership, and cooperation. From their efforts, four powerful kingdoms
+are created, each representing a different vision of wisdom.
+</p>
+
+
+<p class="small-text">
+
+The North represents strength and endurance.
+<br>
+The South represents strategy and truth.
+<br>
+The East represents innovation and technology.
+<br>
+The West represents preservation and memory.
+
+</p>
+
+
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- CHAPTER V -->
+<div class="story-node" data-aos="fade-up">
+
+
+<div class="node-marker">
+<i class="fa-solid fa-dove"></i>
+</div>
+
+
+
+<div class="node-card glass-card">
+
+
+<span class="node-tag">
+Chapter V
+</span>
+
+
+<h3>
+The Age of Peace
+</h3>
+
+
+
+<p>
+For generations, Wisdom Land enters a golden era. The kingdoms exchange knowledge,
+build libraries, develop inventions, and protect civilization. However, Intelligence
+resources begin to decrease, and fear of losing power slowly returns.
+</p>
+
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- CHAPTER VI -->
+<div class="story-node" data-aos="fade-up">
+
+
+<div class="node-marker">
+<i class="fa-solid fa-skull"></i>
+</div>
+
+
+
+<div class="node-card glass-card">
+
+
+<span class="node-tag">
+Chapter VI
+</span>
+
+
+<h3>
+The Second War of Knowledge
+</h3>
+
+
+
+<p>
+The fragile peace collapses as kingdoms begin fighting for control over the remaining
+knowledge resources. Friendship turns into suspicion, and questions once used for
+learning become weapons again. The Second War of Knowledge begins.
+</p>
+
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- CHAPTER VII -->
+<div class="story-node" data-aos="fade-up">
+
+
+<div class="node-marker">
+<i class="fa-solid fa-shield-halved"></i>
+</div>
+
+
+
+<div class="node-card glass-card">
+
+
+<span class="node-tag">
+Chapter VII
+</span>
+
+
+<h3>
+The Player's Journey
+</h3>
+
+
+
+<p>
+A new generation enters Wisdom Land to decide its future. Players must lead their
+kingdom, answer challenges, expand their territory, and prove that true power does
+not come from weapons, but from knowledge.
+</p>
+
+
+</div>
+
+</div>
+
+
+
+</div>
+</section>
+
+<!-- =========================================================
+     05 — GAME FEATURES
+     Animated feature cards
+========================================================= -->
+<section class="section alt-bg" id="features">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">What Makes It Different</span>
+    <h2 class="section-title">Game <span class="accent-emerald">Features</span></h2>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card glass-card" data-aos="flip-up" data-aos-delay="0">
+      <div class="feature-icon"><i class="fa-solid fa-map"></i></div>
+      <h3>Territory Battles</h3>
+      <p>Answer questions to seize hexes of land on a living map that remembers every fight.</p>
+    </div>
+    <div class="feature-card glass-card" data-aos="flip-up" data-aos-delay="80">
+      <div class="feature-icon"><i class="fa-solid fa-layer-group"></i></div>
+      <h3>Four Unique Kingdoms</h3>
+      <p>Each kingdom plays with a distinct rule-set, ability tree, and visual identity.</p>
+    </div>
+    <div class="feature-card glass-card" data-aos="flip-up" data-aos-delay="160">
+      <div class="feature-icon"><i class="fa-solid fa-sliders"></i></div>
+      <h3>Adaptive Difficulty</h3>
+      <p>Question difficulty scales in real time to the player's accuracy and streak.</p>
+    </div>
+    <div class="feature-card glass-card" data-aos="flip-up" data-aos-delay="240">
+      <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+      <h3>Power-Up System</h3>
+      <p>Earn scrolls, shields, and blessings that bend the rules of a single battle.</p>
+    </div>
+    <div class="feature-card glass-card" data-aos="flip-up" data-aos-delay="320">
+      <div class="feature-icon"><i class="fa-solid fa-book-open-reader"></i></div>
+      <h3>Curriculum-Driven Content</h3>
+      <p>Question banks map directly onto real school subjects, editable by teachers.</p>
+    </div>
+    <div class="feature-card glass-card" data-aos="flip-up" data-aos-delay="400">
+      <div class="feature-icon"><i class="fa-solid fa-users-rectangle"></i></div>
+      <h3>Local Co-op &amp; Versus</h3>
+      <p>Two students can duel on one device, turning revision into a rivalry.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     06 — GAMEPLAY LOOP
+     Interactive circular flow diagram
+========================================================= -->
+<section class="section" id="gameplay-loop">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">The Core Loop</span>
+    <h2 class="section-title">Gameplay <span class="accent-gold">Loop</span></h2>
+    <p class="section-sub">Click a node to see details </p>
+  </div>
+
+  <div class="loop-diagram" id="loopDiagram" data-aos="zoom-in">
+    <div class="loop-center">
+      <i class="fa-solid fa-crown"></i>
+    </div>
+    <button class="loop-node" data-step="1" style="--angle:0deg;">
+      <i class="fa-solid fa-map-location-dot"></i>
+      <span>Choose Territory</span>
+    </button>
+    <button class="loop-node" data-step="2" style="--angle:72deg;">
+      <i class="fa-solid fa-circle-question"></i>
+      <span>Answer Question</span>
+    </button>
+    <button class="loop-node" data-step="3" style="--angle:144deg;">
+      <i class="fa-solid fa-flag"></i>
+      <span>Claim or Lose Ground</span>
+    </button>
+    <button class="loop-node" data-step="4" style="--angle:216deg;">
+      <i class="fa-solid fa-star"></i>
+      <span>Earn Rewards</span>
+    </button>
+    <button class="loop-node" data-step="5" style="--angle:288deg;">
+      <i class="fa-solid fa-arrow-up-right-dots"></i>
+      <span>Level Up Kingdom</span>
+    </button>
+  </div>
+
+  <div class="loop-detail glass-card" id="loopDetail" aria-live="polite">
+    <p>Select a step above to see it explained here.</p>
+  </div>
+</section>
+
+<!-- =========================================================
+     07 — GAMEPLAY MECHANICS
+========================================================= -->
+<section class="section alt-bg" id="mechanics">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">Under the Hood</span>
+    <h2 class="section-title">Gameplay <span class="accent-emerald">Mechanics</span></h2>
+  </div>
+
+  <div class="mechanics-grid">
+    <div class="mechanic-card glass-card" data-aos="fade-up" data-aos-delay="0">
+      <span class="mechanic-index">01</span>
+      <i class="fa-solid fa-khanda"></i>
+      <h3>Question Battles</h3>
+      <p>Multiple-choice, timed, and open-answer formats stand in for combat — accuracy and speed both count toward damage dealt.</p>
+    </div>
+    <div class="mechanic-card glass-card" data-aos="fade-up" data-aos-delay="80">
+      <span class="mechanic-index">02</span>
+      <i class="fa-solid fa-chess-board"></i>
+      <h3>Territory System</h3>
+      <p>A hex-grid map of Wisdom Land where every won battle paints a tile in your kingdom's color.</p>
+    </div>
+    <div class="mechanic-card glass-card" data-aos="fade-up" data-aos-delay="160">
+      <span class="mechanic-index">03</span>
+      <i class="fa-solid fa-gauge-high"></i>
+      <h3>Difficulty Scaling</h3>
+      <p>An adaptive engine tracks streaks and response time, quietly raising or lowering question tiers.</p>
+    </div>
+    <div class="mechanic-card glass-card" data-aos="fade-up" data-aos-delay="240">
+      <span class="mechanic-index">04</span>
+      <i class="fa-solid fa-flask"></i>
+      <h3>Power-Ups</h3>
+      <p>Consumable scrolls (50/50, Time Freeze, Double Territory) earned through streaks and daily trials.</p>
+    </div>
+    <div class="mechanic-card glass-card" data-aos="fade-up" data-aos-delay="320">
+      <span class="mechanic-index">05</span>
+      <i class="fa-solid fa-chart-line"></i>
+      <h3>Progression</h3>
+      <p>Kingdoms level up independently, unlocking new abilities, cosmetics, and story chapters.</p>
+    </div>
+    <div class="mechanic-card glass-card" data-aos="fade-up" data-aos-delay="400">
+      <span class="mechanic-index">06</span>
+      <i class="fa-solid fa-trophy"></i>
+      <h3>Victory Conditions</h3>
+      <p>Victory is achieved by conquering the three enemy capitals or capturing the entire map. Use knowledge and strategy to defeat rival kingdoms.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     08 — THE FOUR KINGDOMS
+     Each kingdom is its own full-width immersive section
+========================================================= -->
+<section class="section kingdoms-intro" id="kingdoms">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">Four Pillars, Four Thrones</span>
+    <h2 class="section-title">The Four <span class="accent-gold">Kingdoms</span></h2>
+    <p class="section-sub">Scroll through the realms of Wisdom Land — each built around a different virtue.</p>
+  </div>
+</section>
+
+<!-- ================= NORTH KINGDOM ================= -->
+
+<section class="kingdom-block" id="kingdom-north" style="--kcolor:#2874B8;">
+
+<div class="kingdom-media" data-aos="fade-right">
+<img src="images/18.png" 
+alt="North Kingdom frozen warrior kingdom">
+</div>
+
+
+<div class="kingdom-info" data-aos="fade-left">
+
+<span class="kingdom-eyebrow">
+Kingdom I
+</span>
+
+
+<h3>
+Kingdom of the North
+<span class="kingdom-arabic" dir="rtl">
+مملكة الشمال
+</span>
+</h3>
+
+
+<p>
+A frozen land of discipline and endurance where warriors train both mind and body.
+The North believes that strength begins with a powerful mind.
+</p>
+
+
+<ul class="kingdom-facts">
+
+<li>
+<i class="fa-solid fa-crown"></i>
+<strong>Leader:</strong> King Baha’a Jarar
+</li>
+
+
+<li>
+<i class="fa-solid fa-shield"></i>
+<strong>Symbol:</strong> The Sword
+</li>
+
+
+<li>
+<i class="fa-solid fa-palette"></i>
+<strong>Color:</strong> Royal Blue
+</li>
+
+
+<li>
+<i class="fa-solid fa-landmark"></i>
+<strong>Architecture:</strong> Frozen fortresses and ancient halls
+</li>
+
+
+<li>
+<i class="fa-solid fa-bolt"></i>
+<strong>Strength:</strong> Physical power and mental endurance
+</li>
+
+
+<li>
+<i class="fa-solid fa-star"></i>
+<strong>Ability:</strong> Battle Strength — increases combat advantage
+</li>
+
+</ul>
+
+</div>
+
+</section>
+
+
+
+
+
+
+<!-- ================= SOUTH KINGDOM ================= -->
+
+
+<section class="kingdom-block reverse" id="kingdom-south" style="--kcolor:#A8323C;">
+
+
+<div class="kingdom-media" data-aos="fade-left">
+
+<img src="images/15.png"
+alt="South Kingdom scholars and ocean civilization">
+
+</div>
+
+
+
+<div class="kingdom-info" data-aos="fade-right">
+
+
+<span class="kingdom-eyebrow">
+Kingdom II
+</span>
+
+
+
+<h3>
+Kingdom of the South
+<span class="kingdom-arabic" dir="rtl">
+مملكة الجنوب
+</span>
+</h3>
+
+
+
+<p>
+A kingdom of scholars and strategists inspired by seafaring cultures.
+Its people believe that knowledge and planning are the strongest weapons.
+</p>
+
+
+
+<ul class="kingdom-facts">
+
+
+<li>
+<i class="fa-solid fa-crown"></i>
+<strong>Leader:</strong> King Zaid Sawalha
+</li>
+
+
+<li>
+<i class="fa-solid fa-book"></i>
+<strong>Symbol:</strong> The Book
+</li>
+
+
+<li>
+<i class="fa-solid fa-palette"></i>
+<strong>Color:</strong> Crimson Red
+</li>
+
+
+<li>
+<i class="fa-solid fa-landmark"></i>
+<strong>Architecture:</strong> Coastal academies and knowledge halls
+</li>
+
+
+<li>
+<i class="fa-solid fa-bolt"></i>
+<strong>Strength:</strong> Strategy and tactical intelligence
+</li>
+
+
+<li>
+<i class="fa-solid fa-star"></i>
+<strong>Ability:</strong> Strategic Insight — improves decision advantages
+</li>
+
+
+</ul>
+
+
+</div>
+
+</section>
+
+
+
+
+
+
+
+
+<!-- ================= EAST KINGDOM ================= -->
+
+
+<section class="kingdom-block" id="kingdom-east" style="--kcolor:#0FA968;">
+
+
+<div class="kingdom-media" data-aos="fade-right">
+
+<img src="images/16.png"
+alt="East Kingdom technology civilization">
+
+</div>
+
+
+
+
+<div class="kingdom-info" data-aos="fade-left">
+
+
+<span class="kingdom-eyebrow">
+Kingdom III
+</span>
+
+
+
+
+<h3>
+Kingdom of the East
+<span class="kingdom-arabic" dir="rtl">
+مملكة الشرق
+</span>
+</h3>
+
+
+
+<p>
+A land of innovation inspired by ancient Arab civilizations.
+The East combines creativity, technology, and intelligence to shape the future.
+</p>
+
+
+
+<ul class="kingdom-facts">
+
+
+<li>
+<i class="fa-solid fa-crown"></i>
+<strong>Leader:</strong> King Ayham Dabdoub
+</li>
+
+
+<li>
+<i class="fa-solid fa-gear"></i>
+<strong>Symbol:</strong> The Gear
+</li>
+
+
+<li>
+<i class="fa-solid fa-palette"></i>
+<strong>Color:</strong> Emerald Green
+</li>
+
+
+<li>
+<i class="fa-solid fa-landmark"></i>
+<strong>Architecture:</strong> Advanced cities and mechanical structures
+</li>
+
+
+<li>
+<i class="fa-solid fa-bolt"></i>
+<strong>Strength:</strong> Technology and innovation
+</li>
+
+
+<li>
+<i class="fa-solid fa-star"></i>
+<strong>Ability:</strong> Innovation Boost — enhances development speed
+</li>
+
 
 </ul>
 
@@ -63,82 +953,153 @@
 </div>
 
 
-</nav>
-
-</header>
-
-<!-- ================= WAR OF KNOWLEDGE PROJECT ================= -->
-
-<section id="war-game" class="war-section">
+</section>
 
 
-<!-- GAME HERO -->
-
-<div class="war-hero" data-aos="fade-up">
-
-<img src="images/war of knowledge.png" 
-class="war-logo"
-alt="War of Knowledge Logo">
 
 
-<h1>
-WAR OF KNOWLEDGE
-</h1>
 
-<p>
-An educational strategy game where knowledge becomes power.
-Players compete between kingdoms using intelligence,
-strategy, and wisdom to control the lands of Wisdom World.
-</p>
+
+
+
+<!-- ================= WEST KINGDOM ================= -->
+
+
+<section class="kingdom-block reverse" id="kingdom-west" style="--kcolor:#E0B765;">
+
+
+<div class="kingdom-media" data-aos="fade-left">
+
+
+<img src="images/17.png"
+alt="West Kingdom ancient libraries">
+
 
 </div>
 
 
 
 
-<!-- INFORMATION -->
-
-<div class="war-info" data-aos="fade-up">
+<div class="kingdom-info" data-aos="fade-right">
 
 
-<h2>
-Game Information
+<span class="kingdom-eyebrow">
+Kingdom IV
+</span>
+
+
+
+
+<h3>
+Kingdom of the West
+<span class="kingdom-arabic" dir="rtl">
+مملكة الغرب
+</span>
+</h3>
+
+
+
+<p>
+A peaceful kingdom dedicated to preserving history and protecting the knowledge
+of past generations through endless libraries and archives.
+</p>
+
+
+
+
+<ul class="kingdom-facts">
+
+
+<li>
+<i class="fa-solid fa-crown"></i>
+<strong>Leader:</strong> King Zaid Lallo
+</li>
+
+
+
+<li>
+<i class="fa-solid fa-feather"></i>
+<strong>Symbol:</strong> The Feather
+</li>
+
+
+
+<li>
+<i class="fa-solid fa-palette"></i>
+<strong>Color:</strong> Desert Gold
+</li>
+
+
+
+<li>
+<i class="fa-solid fa-landmark"></i>
+<strong>Architecture:</strong> Golden libraries and ancient halls
+</li>
+
+
+
+<li>
+<i class="fa-solid fa-bolt"></i>
+<strong>Strength:</strong> Defense and preservation
+</li>
+
+
+
+<li>
+<i class="fa-solid fa-star"></i>
+<strong>Ability:</strong> Knowledge Shield — protects resources
+</li>
+
+
+
+</ul>
+
+
+</div>
+
+
+</section>
+</section>
+
+<!-- =========================================================
+     09 — CHARACTERS
+     Large animated cards with bio, personality, abilities
+========================================================= -->
+<section class="section" id="characters">
+  <div class="section-head" data-aos="fade-up">
+  <!-- =====================================================
+     CHARACTERS SECTION
+===================================================== -->
+
+<div class="section-header">
+
+<span class="eyebrow">
+Who You'll Meet
+</span>
+
+<h2 class="section-title">
+Characters
 </h2>
 
-
-<div class="info-grid">
-
-
-<div class="info-card">
-<i class="fa-solid fa-gamepad"></i>
-<h3>Genre</h3>
-<p>Educational Strategy Game</p>
 </div>
 
 
-<div class="info-card">
-<i class="fa-solid fa-code"></i>
-<h3>Engine</h3>
-<p>Unity Engine + C#</p>
-</div>
+
+<div class="characters-grid">
 
 
-<div class="info-card">
-<i class="fa-solid fa-user"></i>
-<h3>Role</h3>
-<p>Game Developer / Designer / Team Leader</p>
-</div>
 
 
-<div class="info-card">
-<i class="fa-solid fa-layer-group"></i>
-<h3>Tools</h3>
-<p>Unity, Illustrator, Blender</p>
-</div>
+<!-- Ayham -->
+
+<article class="character-card glass-card" data-aos="fade-up" data-aos-delay="200">
 
 
-</div>
 
+<div class="character-portrait">
+
+<img src="images/east.png"
+alt="King Ayham Dabdoub">
 
 </div>
 
@@ -146,117 +1107,182 @@ Game Information
 
 
 
-<!-- KINGDOMS -->
-
-
-<div class="kingdom-section">
-
-
-<h2 data-aos="fade-up">
-The Four Kingdoms
-</h2>
-
-
-<div class="kingdom-grid">
-
-
-
-<div class="kingdom-card north" data-aos="fade-up">
-
-<img src="images/18.png">
-
-<h3>
-North Kingdom
-</h3>
-
-<h4>
-King Baha'a Jarar
-</h4>
-
-<p>
-A kingdom focused on strength and intelligence.
-They believe knowledge creates mental and physical power.
-</p>
-
-</div>
-
-
-
-
-<div class="kingdom-card south" data-aos="fade-up">
-
-
-<img src="images/15.png">
+<div class="character-body">
 
 
 <h3>
-South Kingdom
-</h3>
-
-<h4>
-King Zaid Sawalha
-</h4>
-
-<p>
-A maritime civilization inspired by exploration,
-trade, and discovery.
-</p>
-
-
-</div>
-
-
-
-
-<div class="kingdom-card east" data-aos="fade-up">
-
-
-<img src="images/16.png">
-
-
-<h3>
-East Kingdom
-</h3>
-
-<h4>
 King Ayham Dabdoub
-</h4>
+<span class="char-role">
+(King of the East)
+</span>
+</h3>
 
-<p>
-A kingdom inspired by Arabic culture,
-technology, and innovation.
+
+
+
+<p class="character-bio">
+A visionary inventor who combines technology and knowledge to create
+the most advanced kingdom in Wisdom Land.
 </p>
 
+
+
+
+<p>
+<strong>Personality:</strong>
+Creative, innovative, intelligent.
+</p>
+
+
+
+
+<p>
+<strong>Abilities:</strong>
+Innovation Boost — improves technology and kingdom development.
+</p>
+
+
+
+
+</div>
+
+
+</article>
+
+
+<!-- Zaid Sawalha -->
+
+<article class="character-card glass-card" data-aos="fade-up" data-aos-delay="100">
+
+
+<div class="character-portrait">
+
+<img src="images/south.png"
+alt="King Zaid Sawalha">
 
 </div>
 
 
 
 
-<div class="kingdom-card west" data-aos="fade-up">
-
-
-<img src="images/17.png">
+<div class="character-body">
 
 
 <h3>
-West Kingdom
+King Zaid Sawalha
+<span class="char-role">
+(King of the South)
+</span>
 </h3>
 
-<h4>
-King Zaid Lallo
-</h4>
+
+
+
+<p class="character-bio">
+A strategic ruler known for his intelligence and planning.
+He leads the South kingdom by turning knowledge and logical thinking
+into powerful strategies.
+</p>
+
+
+
 
 <p>
-A western civilization built around courage,
-strategy, and exploration.
+<strong>Personality:</strong>
+Analytical, patient, strategic.
+</p>
+
+
+
+
+<p>
+<strong>Abilities:</strong>
+Strategic Insight — improves decision making during knowledge battles.
+</p>
+
+
+
+</div>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+
+<!-- Baha'a -->
+
+<article class="character-card glass-card" data-aos="fade-up">
+
+
+<div class="character-portrait">
+
+<img src="images/north.png"
+alt="King Baha'a Jarar">
+
+</div>
+
+
+
+<div class="character-body">
+
+
+<h3>
+King Baha’a Jarar
+<span class="char-role">
+(King of the North)
+</span>
+</h3>
+
+
+
+<p class="character-bio">
+A powerful and disciplined leader who rules the frozen lands of the North.
+Baha’a believes that strength, courage, and determination are the foundation
+of a great kingdom.
+</p>
+
+
+
+<p>
+<strong>Personality:</strong>
+Fearless, disciplined, loyal.
+</p>
+
+
+
+<p>
+<strong>Abilities:</strong>
+Battle Strength — increases his kingdom's combat power and defense.
 </p>
 
 
 </div>
 
 
-</div>
+</article>
+
+
+
+
+
+
+<!-- Zaid Lallo -->
+
+<article class="character-card glass-card" data-aos="fade-up" data-aos-delay="300">
+
+
+<div class="character-portrait">
+
+<img src="images/west.png"
+alt="King Zaid Lallo">
 
 </div>
 
@@ -264,119 +1290,653 @@ strategy, and exploration.
 
 
 
-<!-- VIDEO -->
+<div class="character-body">
 
 
-<section class="tutorial-section" data-aos="fade-up">
+<h3>
+King Zaid Lallo
+<span class="char-role">
+(King of the West)
+</span>
+</h3>
 
 
-<h2>
-Game Tutorial
-</h2>
 
 
-<div class="video-box">
+<p class="character-bio">
+A calm and wise ruler who protects the history of Wisdom Land.
+He preserves ancient knowledge and guides his people through wisdom.
+</p>
 
 
-<video 
-            src="images/tutorial.mp4" 
-            alt="3D Modeling & Animation" 
-            autoplay>
-        </video>
+
+
+<p>
+<strong>Personality:</strong>
+Calm, thoughtful, patient.
+</p>
+
+
+
+
+<p>
+<strong>Abilities:</strong>
+Knowledge Shield — protects resources and restores lost knowledge.
+</p>
+
+
+
 
 </div>
 
 
+</article>
+
+
+
+
+</div>
 </section>
 
+<!-- =========================================================
+     10 — SYMBOLS
+     Sword / Book / Gear / Feather — animated icon meanings
+========================================================= -->
+<section class="section alt-bg" id="symbols">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">Iconography</span>
+    <h2 class="section-title">Symbols of <span class="accent-gold">Wisdom Land</span></h2>
+  </div>
 
-
-
-
-<!-- 3D MODELS -->
-
-
-<section class="models-section" id="models">
-
-
-<h2 data-aos="fade-up">
-3D Models
-</h2>
-
-
-<div class="model-container" data-aos="zoom-in">
-
-
-<canvas id="warModelCanvas"></canvas>
-
-
-<div class="model-buttons">
-
-<button>
-Rotate
-</button>
-
-<button>
-Reset
-</button>
-
-
-</div>
-
-
-</div>
-
-
+  <div class="symbols-grid">
+    <div class="symbol-card glass-card" data-aos="zoom-in" data-aos-delay="0">
+      <div class="symbol-icon symbol-sword"><i class="fa-solid fa-khanda"></i></div>
+      <h3>The Sword<br><span class="char-role">(King of the North)</span></h3>
+      <p>Valor and the will to defend what has been learned.</p>
+    </div>
+    <div class="symbol-card glass-card" data-aos="zoom-in" data-aos-delay="100">
+      <div class="symbol-icon symbol-book"><i class="fa-solid fa-book-open"></i></div>
+      <h3>The Book<br><span class="char-role">(King of the south)</span></h3>
+      <p>Knowledge preserved, and passed from hand to hand.</p>
+    </div>
+    <div class="symbol-card glass-card" data-aos="zoom-in" data-aos-delay="200">
+      <div class="symbol-icon symbol-gear"><i class="fa-solid fa-gear"></i></div>
+      <h3>The Gear<br><span class="char-role">(King of the East)</span></h3>
+      <p>Progress — the machinery that turns study into strength.</p>
+    </div>
+    <div class="symbol-card glass-card" data-aos="zoom-in" data-aos-delay="300">
+      <div class="symbol-icon symbol-feather"><i class="fa-solid fa-feather"></i></div>
+      <h3>The Feather<br><span class="char-role">(King of the west)</span></h3>
+      <p>Wisdom recorded, the quiet act of writing truth down.</p>
+    </div>
+  </div>
 </section>
 
+<!-- =========================================================
+     11 — HOW TO PLAY
+     Timeline with icons walking through a first session
+========================================================= -->
+<section class="section" id="how-to-play">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">Getting Started</span>
+    <h2 class="section-title">How To <span class="accent-emerald">Play</span></h2>
+  </div>
 
-
+  <div class="howto-timeline">
+    <div class="howto-step" data-aos="fade-up" data-aos-delay="0">
+      <div class="howto-icon"><i class="fa-solid fa-user-plus"></i></div>
+      <h4>1. Choose Your Kingdom</h4>
+      <p>Pick the pillar that matches how you like to play — or let the game suggest one.</p>
+    </div>
+    <div class="howto-step" data-aos="fade-up" data-aos-delay="90">
+      <div class="howto-icon"><i class="fa-solid fa-map"></i></div>
+      <h4>2. Study the Map</h4>
+      <p>Scout the hex-grid of Wisdom Land and pick a tile worth fighting for.</p>
+    </div>
+    <div class="howto-step" data-aos="fade-up" data-aos-delay="180">
+      <div class="howto-icon"><i class="fa-solid fa-circle-question"></i></div>
+      <h4>3. Answer to Attack</h4>
+      <p>Correct, fast answers deal more damage and claim more ground.</p>
+    </div>
+    <div class="howto-step" data-aos="fade-up" data-aos-delay="270">
+      <div class="howto-icon"><i class="fa-solid fa-wand-sparkles"></i></div>
+      <h4>4. Spend Power-Ups</h4>
+      <p>Use scrolls wisely — they can only be recharged between rounds.</p>
+    </div>
+    <div class="howto-step" data-aos="fade-up" data-aos-delay="360">
+      <div class="howto-icon"><i class="fa-solid fa-flag-checkered"></i></div>
+      <h4>5. Win the War</h4>
+      <p>Hold 60% of the map or your capital for three rounds to claim victory.</p>
+    </div>
+  </div>
 </section>
 
+<!-- =========================================================
+     12 — EDUCATIONAL FOCUS
+     Infographic-style breakdown of the pedagogy
+========================================================= -->
+<section class="section alt-bg" id="educational-focus">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">Behind the Design</span>
+    <h2 class="section-title">Educational <span class="accent-gold">Focus</span></h2>
+  </div>
 
+  <div class="edu-infographic">
+    <div class="edu-item glass-card" data-aos="fade-up" data-aos-delay="0">
+      <div class="edu-percent" data-count="72">0%</div>
+      <p>Faster recall in post-session quizzes vs. traditional flashcards, in early testing</p>
+    </div>
+    <div class="edu-item glass-card" data-aos="fade-up" data-aos-delay="100">
+      <div class="edu-percent" data-count="85">0%</div>
+      <p>Of test players replayed a losing battle to try again immediately</p>
+    </div>
+    <div class="edu-item glass-card" data-aos="fade-up" data-aos-delay="200">
+      <div class="edu-percent" data-count="4">0</div>
+      <p>Core subjects mapped one-to-one onto the four kingdoms</p>
+    </div>
+    <div class="edu-item glass-card" data-aos="fade-up" data-aos-delay="300">
+      <div class="edu-percent" data-count="100">0%</div>
+      <p>Editable question bank — teachers can author new content with no code</p>
+    </div>
+  </div>
 
+  <p class="edu-note" data-aos="fade-up">
+    The system is built on retrieval practice and spaced repetition — the same principles behind
+    flashcard apps — wrapped in a territory-conquest fiction so the underlying repetition doesn't feel repetitive.
+  </p>
+</section>
 
+<!-- =========================================================
+     13 — TARGET AUDIENCE
+       Stats and persona cards
+========================================================= -->
+<section class="section" id="audience">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">Who It's For</span>
+    <h2 class="section-title">Target <span class="accent-emerald">Audience</span></h2>
+  </div>
 
+  <div class="audience-grid">
+    <div class="audience-card glass-card" data-aos="fade-up" data-aos-delay="0">
+      <i class="fa-solid fa-child-reaching"></i>
+      <h3>Ages 12–18</h3>
+      <p>Middle and high-school students preparing for exams</p>
+    </div>
+    <div class="audience-card glass-card" data-aos="fade-up" data-aos-delay="100">
+      <i class="fa-solid fa-chalkboard-user"></i>
+      <h3>Teachers</h3>
+      <p>Educators looking for a low-effort, high-engagement classroom tool</p>
+    </div>
+    <div class="audience-card glass-card" data-aos="fade-up" data-aos-delay="200">
+      <i class="fa-solid fa-house-laptop"></i>
+      <h3>Home Learners</h3>
+      <p>Students studying independently who want structure without pressure</p>
+    </div>
+    <div class="audience-card glass-card" data-aos="fade-up" data-aos-delay="300">
+      <i class="fa-solid fa-earth-africa"></i>
+      <h3>Arabic-Speaking Regions</h3>
+      <p>Built bilingually from day one, with Arabic-Islamic visual identity at its core</p>
+    </div>
+  </div>
+</section>
 
-<!-- ================= LIGHTBOX (shared) ================= -->
-<div class="lightbox" id="lightbox">
-    <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
-    <img src="" alt="" id="lightboxImage">
-</div>
+<!-- =========================================================
+     14 — SOFTWARE USED
+========================================================= -->
+<section class="section alt-bg" id="software">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">The Toolkit</span>
+    <h2 class="section-title">Software <span class="accent-gold">Used</span></h2>
+  </div>
 
+  <div class="software-grid">
+    <div class="software-card glass-card" data-aos="fade-up" data-aos-delay="0">
+      <i class="fa-brands fa-unity"></i>
+      <h3>Unity</h3>
+      <p>Core engine, gameplay systems &amp; UI</p>
+    </div>
+    <div class="software-card glass-card" data-aos="fade-up" data-aos-delay="60">
+      <i class="fa-solid fa-cube"></i>
+      <h3>Blender</h3>
+      <p>Environment &amp; prop 3D modeling</p>
+    </div>
+    <div class="software-card glass-card" data-aos="fade-up" data-aos-delay="120">
+      <i class="fa-solid fa-shapes"></i>
+      <h3>Maya</h3>
+      <p>Character rigging &amp; animation</p>
+    </div>
+    <div class="software-card glass-card" data-aos="fade-up" data-aos-delay="180">
+      <i class="fa-brands fa-adobe"></i>
+      <h3>Illustrator</h3>
+      <p>Logos, icons &amp; UI vector art</p>
+    </div>
+    <div class="software-card glass-card" data-aos="fade-up" data-aos-delay="240">
+      <i class="fa-solid fa-film"></i>
+      <h3>Premiere Pro</h3>
+      <p>Trailer editing &amp; sound sync</p>
+    </div>
+    <div class="software-card glass-card" data-aos="fade-up" data-aos-delay="300">
+      <i class="fa-solid fa-wand-magic-sparkles"></i>
+      <h3>After Effects</h3>
+      <p>Motion graphics &amp; VFX compositing</p>
+    </div>
+  </div>
+</section>
 
-<div class="bottom-bar">
-      <div class="Contact-Us" id="contact-us">
-        <h3>Contact me</h3>
-        <h1>
-        <span>Ayham Nidal Dabdoub</span>
-        </h1><br><br>
+<!-- =========================================================
+     15 — DEVELOPMENT TIMELINE
+     Horizontal scroll timeline
+========================================================= -->
+<section class="section" id="dev-timeline">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">Six Months, Start to Finish</span>
+    <h2 class="section-title">Development <span class="accent-emerald">Timeline</span></h2>
+  </div>
 
-        <a href="tel:+962790062346"><i class="fa fa-phone" aria-hidden="true"></i></a>
-        <a href="https://www.facebook.com/ayham.dabdoub.5/"><i class="fa-brands fa-facebook"></i></a>
-        <a href="https://www.instagram.com/ayham.dabdoub/"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://api.whatsapp.com/send/?phone=962790062346&text=Hi+Ayham%21+I+found+your+portfolio+and+would+like+to+contact+you.&type=phone_number&app_absent=0"><i class="fa-brands fa-whatsapp"></i></a>
-        <a href="https://www.linkedin.com/in/ayham-nidal-dabdoub-54457a252/"><i class="fa-brands fa-linkedin"></i></a>
+  <div class="dev-timeline-scroll">
+    <div class="dev-timeline-track">
+      <div class="dev-milestone" data-aos="fade-up">
+        <span class="dev-month">Month 1</span>
+        <h4>Research &amp; Concept</h4>
+        <p>Lore, pillar mapping, competitive analysis</p>
       </div>
-      <a href="clod portfolio.html"><img src="images/profile.png" alt="Ayham Nidal Dabdoub" class="logo"></a>
-</div>
+      <div class="dev-milestone" data-aos="fade-up" data-aos-delay="80">
+        <span class="dev-month">Month 2</span>
+        <h4>Prototyping</h4>
+        <p>Paper prototype, core loop greyboxing</p>
+      </div>
+      <div class="dev-milestone" data-aos="fade-up" data-aos-delay="160">
+        <span class="dev-month">Month 3</span>
+        <h4>Art &amp; World-Building</h4>
+        <p>Kingdom concept art, UI kit, 3D blockouts</p>
+      </div>
+      <div class="dev-milestone" data-aos="fade-up" data-aos-delay="240">
+        <span class="dev-month">Month 4</span>
+        <h4>Core Systems</h4>
+        <p>Question engine, territory grid, progression</p>
+      </div>
+      <div class="dev-milestone" data-aos="fade-up" data-aos-delay="320">
+        <span class="dev-month">Month 5</span>
+        <h4>Playtesting</h4>
+        <p>Two classroom playtests, difficulty tuning</p>
+      </div>
+      <div class="dev-milestone" data-aos="fade-up" data-aos-delay="400">
+        <span class="dev-month">Month 6</span>
+        <h4>Polish &amp; Defense</h4>
+        <p>Bug fixing, trailer, documentation, graduation defense</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!-- =========================================================
+     16 — ART DIRECTION
+     Palette, typography, moodboard, patterns
+========================================================= -->
+<section class="section alt-bg" id="art-direction">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">Visual Language</span>
+    <h2 class="section-title">Art <span class="accent-gold">Direction</span></h2>
+  </div>
 
+  <div class="art-direction-grid">
+    <div class="art-block glass-card" data-aos="fade-up">
+      <h3>Color Palette</h3>
+      <div class="palette-row">
+        <div class="swatch" style="background:#0b0b0b;"><span>#0b0b0b</span></div>
+        <div class="swatch" style="background:#00ff88;"><span>#00ff88</span></div>
+        <div class="swatch" style="background:#C6A664;"><span>#C6A664</span></div>
+        <div class="swatch light" style="background:#ffffff;"><span>#ffffff</span></div>
+      </div>
+    </div>
+
+    <div class="art-block glass-card" data-aos="fade-up" data-aos-delay="100">
+      <h3>Typography</h3>
+      <p class="type-sample font-display">War of Knowledge — Cinzel</p>
+      <p class="type-sample font-body">Every answer is a weapon — Cairo</p>
+    </div>
+
+    <div class="art-block glass-card" data-aos="fade-up" data-aos-delay="200">
+      <h3>Moodboard</h3>
+      <div class="moodboard-grid">
+        <img src="assets/img/mood-1.jpg" alt="Moodboard reference 1: geometric tilework">
+        <img src="assets/img/mood-2.jpg" alt="Moodboard reference 2: manuscript illumination">
+        <img src="assets/img/mood-3.jpg" alt="Moodboard reference 3: desert citadel at dusk">
+        <img src="assets/img/mood-4.jpg" alt="Moodboard reference 4: emerald and gold lighting study">
+      </div>
+    </div>
+
+    <div class="art-block glass-card" data-aos="fade-up" data-aos-delay="300">
+      <h3>Patterns</h3>
+      <div class="pattern-sample" aria-hidden="true"></div>
+      <p>An eight-point star lattice, drawn from classical Islamic geometry, recurs across UI frames, loading screens, and kingdom borders.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     17 — GALLERY
+     Filterable image gallery
+========================================================= -->
+<section class="section" id="gallery">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">Visual Archive</span>
+    <h2 class="section-title">Gallery</h2>
+  </div>
+
+  <div class="gallery-filters" data-aos="fade-up">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="concept">Concept Art</button>
+    <button class="filter-btn" data-filter="ui">UI</button>
+    <button class="filter-btn" data-filter="characters">Characters</button>
+    <button class="filter-btn" data-filter="environments">Environments</button>
+  </div>
+
+  <div class="gallery-grid" id="galleryGrid">
+    <figure class="gallery-item" data-category="concept" data-aos="fade-up">
+      <img src="assets/img/gallery-01.jpg" alt="Concept art: Kingdom of Wisdom skyline">
+    </figure>
+    <figure class="gallery-item" data-category="ui" data-aos="fade-up" data-aos-delay="60">
+      <img src="assets/img/gallery-02.jpg" alt="UI mockup: territory map screen">
+    </figure>
+    <figure class="gallery-item" data-category="characters" data-aos="fade-up" data-aos-delay="120">
+      <img src="assets/img/gallery-03.jpg" alt="Character sheet: Queen Amina Al-Alimah">
+    </figure>
+    <figure class="gallery-item" data-category="environments" data-aos="fade-up" data-aos-delay="180">
+      <img src="assets/img/gallery-04.jpg" alt="Environment art: Kingdom of Faith courtyard">
+    </figure>
+    <figure class="gallery-item" data-category="concept" data-aos="fade-up" data-aos-delay="240">
+      <img src="assets/img/gallery-05.jpg" alt="Concept art: Jahl the Shadow of Ignorance">
+    </figure>
+    <figure class="gallery-item" data-category="ui" data-aos="fade-up" data-aos-delay="300">
+      <img src="assets/img/gallery-06.jpg" alt="UI mockup: battle question screen">
+    </figure>
+    <figure class="gallery-item" data-category="environments" data-aos="fade-up" data-aos-delay="360">
+      <img src="assets/img/gallery-07.jpg" alt="Environment art: Kingdom of Knowledge library interior">
+    </figure>
+    <figure class="gallery-item" data-category="characters" data-aos="fade-up" data-aos-delay="420">
+      <img src="assets/img/gallery-08.jpg" alt="Character sheet: the Student avatar customization">
+    </figure>
+  </div>
+</section>
+
+<!-- =========================================================
+     18 — 3D MODELS
+     Three.js interactive viewer with rotate/reset/fullscreen
+========================================================= -->
+<section class="section alt-bg" id="models">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">Explore the Assets</span>
+    <h2 class="section-title">3D <span class="accent-emerald">Models</span></h2>
+    <p class="section-sub">Drag to rotate a hero prop from the game. Real-time, rendered right in the browser.</p>
+  </div>
+
+  <div class="model-viewer-wrap glass-card" data-aos="zoom-in">
+    <div class="model-toolbar">
+      <select id="modelSelect" class="model-select" aria-label="Choose a 3D model">
+        <option value="emblem">Kingdom Emblem</option>
+        <option value="sword">Ceremonial Sword</option>
+        <option value="book">The First Codex</option>
+      </select>
+      <div class="model-buttons">
+        <button id="modelResetBtn" title="Reset view"><i class="fa-solid fa-arrows-rotate"></i></button>
+        <button id="modelFullscreenBtn" title="Fullscreen"><i class="fa-solid fa-expand"></i></button>
+      </div>
+    </div>
+    <div id="modelCanvasContainer" class="model-canvas-container">
+      <canvas id="warModelCanvas" aria-label="Interactive 3D model viewer"></canvas>
+      <div class="model-loading" id="modelLoading">
+        <i class="fa-solid fa-circle-notch fa-spin"></i>
+      </div>
+    </div>
+    <p class="model-hint"><i class="fa-solid fa-arrows-up-down-left-right"></i> Drag to orbit &middot; Scroll to zoom</p>
+  </div>
+</section>
+
+<!-- =========================================================
+     19 — TRAILER
+     Embedded cinematic video
+========================================================= -->
+<section class="section" id="trailer">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">Watch It in Motion</span>
+    <h2 class="section-title">Trailer</h2>
+  </div>
+
+  <div class="video-box glass-card" data-aos="zoom-in">
+    <video id="trailerVideo" controls poster="images/tut.png" preload="metadata">
+      <source src="images/tut.mp4" type="video/mp4">
+      Your browser does not support embedded video. <a href="images/tut.mp4">Download the trailer</a> instead.
+    </video>
+  </div>
+</section>
+
+<!-- =========================================================
+     20 — MY RESPONSIBILITIES
+     Timeline of the author's contributions
+========================================================= -->
+<section class="section alt-bg" id="responsibilities">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">My Contribution</span>
+    <h2 class="section-title">My <span class="accent-gold">Responsibilities</span></h2>
+  </div>
+
+  <div class="resp-grid">
+    <div class="resp-card glass-card" data-aos="fade-up" data-aos-delay="0">
+      <i class="fa-solid fa-chess"></i>
+      <h4>Game Design</h4>
+      <p>Authored the core loop, kingdom balance, and progression systems.</p>
+    </div>
+    <div class="resp-card glass-card" data-aos="fade-up" data-aos-delay="60">
+      <i class="fa-solid fa-code"></i>
+      <h4>Programming</h4>
+      <p>Built the question engine, territory grid, and save system in C#.</p>
+    </div>
+    <div class="resp-card glass-card" data-aos="fade-up" data-aos-delay="120">
+      <i class="fa-brands fa-unity"></i>
+      <h4>Unity Implementation</h4>
+      <p>Wired gameplay systems, scene management, and build pipeline.</p>
+    </div>
+    <div class="resp-card glass-card" data-aos="fade-up" data-aos-delay="180">
+      <i class="fa-solid fa-object-group"></i>
+      <h4>UI/UX</h4>
+      <p>Designed and implemented every in-game menu and HUD element.</p>
+    </div>
+    <div class="resp-card glass-card" data-aos="fade-up" data-aos-delay="240">
+      <i class="fa-solid fa-feather-pointed"></i>
+      <h4>Story</h4>
+      <p>Wrote the lore of Wisdom Land, the four kingdoms, and Jahl.</p>
+    </div>
+    <div class="resp-card glass-card" data-aos="fade-up" data-aos-delay="300">
+      <i class="fa-solid fa-paintbrush"></i>
+      <h4>Illustration</h4>
+      <p>Produced concept art and icon sets for symbols and kingdoms.</p>
+    </div>
+    <div class="resp-card glass-card" data-aos="fade-up" data-aos-delay="360">
+      <i class="fa-solid fa-list-check"></i>
+      <h4>Project Management</h4>
+      <p>Ran sprints, milestones, and the graduation submission timeline.</p>
+    </div>
+    <div class="resp-card glass-card" data-aos="fade-up" data-aos-delay="420">
+      <i class="fa-solid fa-people-arrows"></i>
+      <h4>Team Leadership</h4>
+      <p>Directed a four-person team across design, art, and QA.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     21 — CHALLENGES
+     Problem / Solution cards
+========================================================= -->
+<section class="section" id="challenges">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">What Went Wrong (and How We Fixed It)</span>
+    <h2 class="section-title">Challenges</h2>
+  </div>
+
+  <div class="challenges-grid">
+    <div class="challenge-card glass-card" data-aos="fade-up" data-aos-delay="0">
+      <div class="problem"><i class="fa-solid fa-triangle-exclamation"></i> Problem</div>
+      <p>Early playtesters answered fast and guessed, gaming the reward loop instead of learning.</p>
+      <div class="solution"><i class="fa-solid fa-lightbulb"></i> Solution</div>
+      <p>Added a confidence-weighted scoring model that rewards accuracy over raw speed.</p>
+    </div>
+    <div class="challenge-card glass-card" data-aos="fade-up" data-aos-delay="100">
+      <div class="problem"><i class="fa-solid fa-triangle-exclamation"></i> Problem</div>
+      <p>The four kingdoms felt visually similar on mobile screens at a glance.</p>
+      <div class="solution"><i class="fa-solid fa-lightbulb"></i> Solution</div>
+      <p>Introduced kingdom-specific silhouettes, color-coded UI chrome, and unique ambient audio.</p>
+    </div>
+    <div class="challenge-card glass-card" data-aos="fade-up" data-aos-delay="200">
+      <div class="problem"><i class="fa-solid fa-triangle-exclamation"></i> Problem</div>
+      <p>Teachers wanted custom question banks, but the original system required editing code.</p>
+      <div class="solution"><i class="fa-solid fa-lightbulb"></i> Solution</div>
+      <p>Built a spreadsheet-import pipeline so any educator can add content with no programming.</p>
+    </div>
+    <div class="challenge-card glass-card" data-aos="fade-up" data-aos-delay="300">
+      <div class="problem"><i class="fa-solid fa-triangle-exclamation"></i> Problem</div>
+      <p>Mid-range Android devices struggled with the original particle-heavy battle effects.</p>
+      <div class="solution"><i class="fa-solid fa-lightbulb"></i> Solution</div>
+      <p>Rebuilt VFX with GPU instancing and an automatic quality tier based on device benchmark.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     22 — RESULTS
+     Animated counters
+========================================================= -->
+<section class="section alt-bg" id="results">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">The Numbers</span>
+    <h2 class="section-title">Results</h2>
+  </div>
+
+  <div class="results-grid">
+    <div class="result-card glass-card" data-aos="fade-up" data-aos-delay="0">
+      <div class="counter" data-count="47">0</div>
+      <p>Student playtesters</p>
+    </div>
+    <div class="result-card glass-card" data-aos="fade-up" data-aos-delay="100">
+      <div class="counter" data-count="4">0</div>
+      <p>Playable kingdoms shipped</p>
+    </div>
+    <div class="result-card glass-card" data-aos="fade-up" data-aos-delay="200">
+      <div class="counter" data-count="500">0</div>
+      <p>Questions authored across all subjects</p>
+    </div>
+    <div class="result-card glass-card" data-aos="fade-up" data-aos-delay="300">
+      <div class="counter" data-count="20">0</div>
+      <p>A grade — graduation project score / 20</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     23 — FUTURE PLANS
+     Roadmap timeline
+========================================================= -->
+<section class="section" id="future">
+  <div class="section-head" data-aos="fade-up">
+    <span class="eyebrow">What's Next</span>
+    <h2 class="section-title">Future <span class="accent-emerald">Plans</span></h2>
+  </div>
+
+  <div class="roadmap">
+    <div class="roadmap-item glass-card" data-aos="fade-up" data-aos-delay="0">
+      <span class="roadmap-tag">Near-Term</span>
+      <h4>Teacher Dashboard</h4>
+      <p>A web portal for assigning question sets and tracking class progress.</p>
+    </div>
+    <div class="roadmap-item glass-card" data-aos="fade-up" data-aos-delay="100">
+      <span class="roadmap-tag">Mid-Term</span>
+      <h4>Online Multiplayer</h4>
+      <p>Cross-device kingdom-vs-kingdom battles with matchmaking.</p>
+    </div>
+    <div class="roadmap-item glass-card" data-aos="fade-up" data-aos-delay="200">
+      <span class="roadmap-tag">Long-Term</span>
+      <h4>New Kingdoms</h4>
+      <p>Expansion kingdoms for Arts and Sciences, doubling the map.</p>
+    </div>
+    <div class="roadmap-item glass-card" data-aos="fade-up" data-aos-delay="300">
+      <span class="roadmap-tag">Vision</span>
+      <h4>Regional Rollout</h4>
+      <p>Pilot partnerships with schools across the region.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     24 — DOWNLOAD SECTION
+========================================================= -->
+<section class="section alt-bg download-section" id="download">
+  <div class="download-inner glass-card" data-aos="zoom-in">
+    <h2 class="section-title">Take Wisdom Land <span class="accent-gold">With You</span></h2>
+    <p>Grab the documentation, the playable build, or the trailer.</p>
+    <div class="download-buttons">
+      <a href="war of knowledge project.pdf" class="btn btn-outline" >
+        <i class="fa-solid fa-file-lines"></i> Documentation
+      </a>
+      <a href="https://play.unity.com/en/games/e9352fc9-1366-4527-b862-dfd9087e9b3c/war-of-knowledge" class="btn btn-primary" >
+        <i class="fa-brands fa-unity"></i> Play Now
+      </a>
+      <a href="#trailer" class="btn btn-secondary" >
+        <i class="fa-solid fa-clapperboard"></i> Trailer (MP4)
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- =========================================================
+     25 — CONTACT FOOTER
+========================================================= -->
+<footer class="wok-footer" id="contact">
+  <div class="footer-glow" aria-hidden="true"></div>
+  <div class="footer-inner">
+    <div class="footer-brand" data-aos="fade-up">
+      <img src="images/war of knowledge.png" alt="War of Knowledge emblem" class="footer-mark">
+      <h3>War of <span class="accent-emerald">Knowledge</span></h3>
+      <p>A graduation project exploring what education could feel like.</p>
+    </div>
+
+    <div class="footer-links" data-aos="fade-up" data-aos-delay="100">
+      <h4>Explore</h4>
+      <a href="#overview">Overview</a>
+      <a href="#kingdoms">Kingdoms</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#download">Download</a>
+    </div>
+
+    <div class="footer-contact" data-aos="fade-up" data-aos-delay="200">
+      <h4>Get In Touch</h4>
+      <a href="mailto:ayhamnidal22@gmail.com"><i class="fa-solid fa-envelope"></i> ayhamnidal22@gmail.com</a>
+    </div>
+  </div>
+
+  
+  </div>
+</footer>
+
+<!-- Back to top -->
+<button id="backToTop" class="back-to-top" aria-label="Back to top">
+  <i class="fa-solid fa-arrow-up"></i>
+</button>
+
+<!-- =========================================================
+     SCRIPTS
+========================================================= -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="https://unpkg.com/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
 AOS.init({
-    duration: 1000,
-    once: true,
-    offset: 100
+    duration:1000,
+    once:true
 });
 </script>
-
 <script src="app2.js"></script>
-
 </body>
-
 </html>

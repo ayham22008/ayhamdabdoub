@@ -1,501 +1,559 @@
-/* =========================================================
-   Ayham Dabdoub — Portfolio Scripts
-   (No preloader / loading screen)
-========================================================= */
+/* =============================================================
+   WAR OF KNOWLEDGE — app2.js
+   Vanilla JS only. No frameworks, no build step.
+   Sections:
+     1. Loader
+     2. Particle background canvas
+     3. AOS init
+     4. Header scroll state + scroll progress bar
+     5. Mobile nav toggle
+     6. Gameplay loop diagram interactions
+     7. Gallery filtering
+     8. Animated counters (results + educational focus)
+     9. Three.js 3D model viewer (rotate / reset / fullscreen)
+     10. Back-to-top button
+     11. Footer year
+============================================================= */
 
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+(() => {
+  'use strict';
 
-/* ==========================================
-   THEME TOGGLE
-   ========================================== */
-(function theme() {
-  const btn = document.getElementById('theme-btn');
-  const saved = localStorage.getItem('ayham-theme');
+  const prefersReducedMotion =
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (saved === 'light') {
-    document.documentElement.setAttribute('data-theme', 'light');
-    btn.textContent = '☀️';
+  /* -----------------------------------------------------------
+     1. LOADER
+     Hides the intro loader once the page has painted, so the
+     hero animation feels like a deliberate reveal rather than
+     a blank flash.
+  ----------------------------------------------------------- */
+  function initLoader() {
+    const loader = document.getElementById('wokLoader');
+    if (!loader) return;
+    const hide = () => loader.classList.add('loaded');
+    window.addEventListener('load', () => setTimeout(hide, 900));
+    // Safety net: never trap the user behind the loader
+    setTimeout(hide, 3500);
   }
 
-  btn.addEventListener('click', () => {
-    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  /* -----------------------------------------------------------
+     2. PARTICLE BACKGROUND CANVAS
+     Lightweight floating-particle field (emerald/gold dust)
+     drawn on a full-viewport canvas behind all content.
+     Pauses when the tab is hidden and respects reduced motion.
+  ----------------------------------------------------------- */
+  function initParticles() {
+    const canvas = document.getElementById('particleCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let width, height, particles, rafId;
+    const COLORS = ['rgba(0,255,136,', 'rgba(198,166,100,'];
 
-    if (isLight) {
-      document.documentElement.removeAttribute('data-theme');
-      btn.textContent = '🌙';
-      localStorage.setItem('ayham-theme', 'dark');
-    } else {
-      document.documentElement.setAttribute('data-theme', 'light');
-      btn.textContent = '☀️';
-      localStorage.setItem('ayham-theme', 'light');
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
     }
-  });
-})();
 
-/* ==========================================
-   MOBILE NAV
-   ========================================== */
-(function nav() {
-  const burger = document.getElementById('nav-burger');
-  const links = document.querySelectorAll('#nav-links a');
+    function createParticles() {
+      const count = Math.min(70, Math.floor((width * height) / 22000));
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: Math.random() * 1.8 + 0.6,
+        vx: (Math.random() - 0.5) * 0.15,
+        vy: (Math.random() - 0.5) * 0.15,
+        alpha: Math.random() * 0.5 + 0.15,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)]
+      }));
+    }
 
-  burger.addEventListener('click', () => {
-    document.body.classList.toggle('nav-open');
-  });
+    function tick() {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        if (p.y > height) p.y = 0;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color + p.alpha + ')';
+        ctx.fill();
+      });
+      rafId = requestAnimationFrame(tick);
+    }
 
-  links.forEach(a => {
-    a.addEventListener('click', () => {
-      document.body.classList.remove('nav-open');
-    });
-  });
-})();
-
-/* ==========================================
-   IMAGE FALLBACK
-   ========================================== */
-function attachImageFallback(img, emoji, extraClass) {
-  img.addEventListener('error', () => {
-    const fallback = document.createElement('div');
-    fallback.className = extraClass || 'fallback';
-    fallback.textContent = emoji || '🖼️';
-    img.replaceWith(fallback);
-  }, { once: true });
-}
-
-document.querySelectorAll('img[data-fallback]').forEach(img => {
-  attachImageFallback(img, img.dataset.fallback, 'img-fallback-emoji');
-});
-
-/* ==========================================
-   LIGHTBOX
-   ========================================== */
-const lightbox = document.getElementById('lightbox');
-const lightboxImage = document.getElementById('lightboxImage');
-
-document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
-
-lightbox.addEventListener('click', e => {
-  if (e.target === lightbox) closeLightbox();
-});
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeLightbox();
-});
-
-function openLightbox(src, alt) {
-  lightboxImage.src = src;
-  lightboxImage.alt = alt || '';
-  lightbox.classList.add('open');
-}
-
-function closeLightbox() {
-  lightbox.classList.remove('open');
-}
-
-/* ==========================================
-   3D CAROUSEL
-   ========================================== */
-(function carousel() {
-  const stage = document.getElementById('carouselStage');
-  const dotsWrap = document.getElementById('carouselDots');
-  const prevBtn = document.getElementById('carouselPrev');
-  const nextBtn = document.getElementById('carouselNext');
-
-  if (!stage) return;
-
-  const TOTAL = 10;
-  const items = [];
-
-  for (let i = 1; i <= TOTAL; i++) {
-    const item = document.createElement('div');
-    item.className = 'carousel-item';
-
-    const img = document.createElement('img');
-    img.src = `images/${i}.png`;
-    img.alt = `Gallery photo ${i}`;
-    img.draggable = false;
-
-    attachImageFallback(img, '📷', 'carousel-fallback');
-
-    item.appendChild(img);
-    stage.appendChild(item);
-    items.push(item);
-
-    const dot = document.createElement('span');
-    dot.onclick = () => goTo(i - 1);
-    dotsWrap.appendChild(dot);
-  }
-
-  const dots = dotsWrap.querySelectorAll('span');
-  let current = 0;
-
-  function render() {
-    items.forEach((item, i) => {
-      let offset = i - current;
-
-      if (offset > TOTAL / 2) offset -= TOTAL;
-      if (offset < -TOTAL / 2) offset += TOTAL;
-
-      const abs = Math.abs(offset);
-
-      item.style.opacity = abs > 3 ? '0' : String(1 - abs * 0.28);
-      item.style.pointerEvents = abs > 3 ? 'none' : 'auto';
-
-      item.style.transform = `
-        translateX(${offset * 130}px)
-        translateZ(${-abs * 90}px)
-        rotateY(${offset * -32}deg)
-        scale(${1 - abs * 0.12})
-      `;
-
-      item.style.zIndex = 10 - abs;
+    resize();
+    createParticles();
+    window.addEventListener('resize', () => {
+      resize();
+      createParticles();
     });
 
-    dots.forEach((d, i) => {
-      d.classList.toggle('active', i === current);
-    });
-  }
-
-  function goTo(i) {
-    current = ((i % TOTAL) + TOTAL) % TOTAL;
-    render();
-  }
-
-  function next() { goTo(current + 1); }
-  function prev() { goTo(current - 1); }
-
-  prevBtn.onclick = prev;
-  nextBtn.onclick = next;
-
-  let dragging = false;
-  let startX = 0;
-  let dragOffset = 0;
-
-  stage.onpointerdown = e => {
-    dragging = true;
-    startX = e.clientX;
-    stage.setPointerCapture(e.pointerId);
-    pauseAutoplay();
-  };
-
-  stage.onpointermove = e => {
-    if (dragging) dragOffset = e.clientX - startX;
-  };
-
-  stage.onpointerup = () => {
-    if (!dragging) return;
-
-    dragging = false;
-
-    if (dragOffset > 40) prev();
-    else if (dragOffset < -40) next();
-
-    dragOffset = 0;
-    resumeAutoplay();
-  };
-
-  let timer = null;
-
-  function pauseAutoplay() {
-    clearInterval(timer);
-  }
-
-  function resumeAutoplay() {
-    if (reduceMotion) return;
-    clearInterval(timer);
-    timer = setInterval(next, 3200);
-  }
-
-  const carouselWrap = document.getElementById('galleryCarousel');
-  if (carouselWrap) {
-    carouselWrap.onmouseenter = pauseAutoplay;
-    carouselWrap.onmouseleave = resumeAutoplay;
-  }
-
-  render();
-  resumeAutoplay();
-})();
-
-/* ==========================================
-   DESIGNS GRID
-   ========================================== */
-(function designsGrid() {
-  const grid = document.getElementById('designsGrid');
-  if (!grid) return;
-
-  const labels = [
-    'drinkk',
-    'ayham logo',
-    '2d character',
-    'war of knowledge',
-    'south kingdom',
-    'east kingdom',
-    'west kingdom',
-    'north kingdom'
-  ];
-
-  labels.forEach((label, idx) => {
-    const i = idx + 11;
-
-    const tile = document.createElement('div');
-    tile.className = 'design-tile';
-    tile.setAttribute('data-aos', 'fade-up');
-
-    const img = document.createElement('img');
-    img.src = `images/${i}.png`;
-    img.alt = label;
-
-    attachImageFallback(img, '🎨');
-
-    tile.appendChild(img);
-
-    const overlay = document.createElement('div');
-    overlay.className = 'tile-overlay';
-    overlay.innerHTML = `<span>${label}</span>`;
-
-    tile.appendChild(overlay);
-
-    tile.addEventListener('click', () => {
-      const image = tile.querySelector('img');
-      openLightbox(image ? image.src : '', label);
-    });
-
-    grid.appendChild(tile);
-  });
-})();
-
-/* ==========================================
-   MODELS TABS
-   ========================================== */
-(function modelsTabs() {
-  const tabs = document.querySelectorAll('.models-tab');
-  const panelViewer = document.getElementById('panel-viewer');
-  const panelRenders = document.getElementById('panel-renders');
-
-  if (!tabs.length) return;
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-
-      const showViewer = tab.dataset.tab === 'viewer';
-
-      if (panelViewer) panelViewer.style.display = showViewer ? '' : 'none';
-      if (panelRenders) panelRenders.style.display = showViewer ? 'none' : '';
-    });
-  });
-})();
-
-/* ==========================================
-   3D MODEL VIEWER — GLB / GLTF
-   ========================================== */
-(function modelViewer() {
-  const canvas = document.getElementById('modelCanvas');
-  if (!canvas || !window.THREE) return;
-
-  const container = canvas.parentElement;
-  const overlay = document.getElementById('viewerOverlay');
-  const autoRotateBtn = document.getElementById('autoRotateBtn');
-  const resetBtn = document.getElementById('resetViewBtn');
-
-  let model = null;
-  let mixer = null;
-  let controls = null;
-
-  /* SCENE */
-  const scene = new THREE.Scene();
-  scene.background = null;
-
-  /* CAMERA */
-  const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 1000);
-  camera.position.set(0, 1, 5);
-
-  /* RENDERER */
-  const renderer = new THREE.WebGLRenderer({
-    canvas: canvas,
-    antialias: true,
-    alpha: true
-  });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-  /* LIGHTING */
-  const ambient = new THREE.AmbientLight(0xffffff, 0.5);
-  scene.add(ambient);
-
-  const key = new THREE.DirectionalLight(0xffffff, 1.5);
-  key.position.set(5, 8, 5);
-  scene.add(key);
-
-  const greenLight = new THREE.PointLight(0x7c5cff, 2, 20);
-  greenLight.position.set(-4, 3, -4);
-  scene.add(greenLight);
-
-  /* FLOOR GRID */
-  const grid = new THREE.GridHelper(10, 20, 0x7c5cff, 0x222222);
-  grid.material.transparent = true;
-  grid.material.opacity = 0.25;
-
-  /* 🔴 GRID POSITION */
-  grid.position.y = -4;
-  grid.position.x = 0.2;
-  grid.position.z = 2.1;
-  scene.add(grid);
-
-  /* CONTROLS */
-  if (THREE.OrbitControls) {
-    controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.08;
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 1.2;
-    controls.minDistance = 1;
-    controls.maxDistance = 20;
-  }
-
-  /* LOAD MODEL */
-  function loadModel() {
-    if (!THREE.GLTFLoader) {
-      console.error("GLTFLoader missing");
+    if (prefersReducedMotion) {
+      // Draw a single static frame instead of animating forever
+      tick();
+      cancelAnimationFrame(rafId);
       return;
     }
 
-    const loader = new THREE.GLTFLoader();
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        cancelAnimationFrame(rafId);
+      } else {
+        tick();
+      }
+    });
 
-    if (overlay) {
-      overlay.style.display = 'block';
-      overlay.innerHTML = 'Loading Model 0%';
+    tick();
+  }
+
+  /* -----------------------------------------------------------
+     3. AOS INIT
+  ----------------------------------------------------------- */
+  function initAOS() {
+    if (typeof AOS === 'undefined') return;
+    AOS.init({
+      duration: 800,
+      easing: 'ease-out-cubic',
+      once: true,
+      offset: 60,
+      disable: prefersReducedMotion
+    });
+  }
+
+  /* -----------------------------------------------------------
+     4. HEADER SCROLL STATE + PROGRESS BAR
+  ----------------------------------------------------------- */
+  function initHeaderScroll() {
+    const header = document.getElementById('wokHeader');
+    const progress = document.getElementById('scrollProgress');
+    if (!header) return;
+
+    function onScroll() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+
+      header.style.borderBottomColor =
+        scrollTop > 40 ? 'rgba(0,255,136,0.15)' : 'rgba(255,255,255,0.06)';
+
+      if (progress) progress.style.width = pct + '%';
     }
 
-    /* 🔴 MODEL PATH */
-    loader.load(
-      "images/bahaa.glb",
-      function (gltf) {
-        if (model) {
-          scene.remove(model);
-        }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
 
-        model = gltf.scene;
-        scene.add(model);
+  /* -----------------------------------------------------------
+     5. MOBILE NAV TOGGLE
+  ----------------------------------------------------------- */
+  function initNavToggle() {
+    const burger = document.getElementById('navBurger');
+    const links = document.getElementById('navLinks');
+    if (!burger || !links) return;
 
-        /* 🔴 MODEL SCALE PLACE */
-        /*
-        Example:
-        model.scale.set(0.5,0.5,0.5);
-        model.scale.set(2,2,2);
-        */
+    burger.addEventListener('click', () => {
+      const isOpen = document.body.classList.toggle('nav-open');
+      burger.setAttribute('aria-expanded', String(isOpen));
+    });
 
-        model.traverse(child => {
-          if (child.isMesh) {
-            child.castShadow = true;
-            child.receiveShadow = true;
-          }
+    links.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.body.classList.remove('nav-open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  /* -----------------------------------------------------------
+     6. GAMEPLAY LOOP DIAGRAM
+     Clicking a node highlights it and swaps the explanatory
+     text below the diagram — a lightweight interactive
+     flow-diagram without any external charting library.
+  ----------------------------------------------------------- */
+  function initLoopDiagram() {
+    const nodes = document.querySelectorAll('.loop-node');
+    const detail = document.getElementById('loopDetail');
+    if (!nodes.length || !detail) return;
+
+    const STEP_COPY = {
+      1: 'Choose Territory — scout the hex-grid map of Wisdom Land and pick a tile worth fighting for. Contested tiles offer bigger rewards but harder questions.',
+      2: 'Answer Question — a question themed to your kingdom appears. Speed and accuracy both feed into your final score for the exchange.',
+      3: 'Claim or Lose Ground — win, and the tile is painted in your kingdom colors. Lose, and it may fall to a rival or return to neutral ground.',
+      4: 'Earn Rewards — correct streaks generate scrolls, coins, and cosmetic unlocks that carry over between sessions.',
+      5: 'Level Up Kingdom — accumulated territory and rewards raise your kingdom\'s level, unlocking new abilities and story chapters.'
+    };
+
+    function setActive(node) {
+      nodes.forEach(n => n.classList.remove('active'));
+      node.classList.add('active');
+      const step = node.getAttribute('data-step');
+      detail.innerHTML = `<p><strong>Step ${step}.</strong> ${STEP_COPY[step]}</p>`;
+    }
+
+    nodes.forEach(node => {
+      node.addEventListener('click', () => setActive(node));
+      node.addEventListener('mouseenter', () => setActive(node));
+    });
+
+    // Auto-cycle once on load so the diagram doesn't sit static,
+    // unless the user prefers reduced motion.
+    if (!prefersReducedMotion) {
+      let i = 0;
+      const auto = setInterval(() => {
+        if (document.querySelector('.loop-node:hover')) return; // don't fight the user
+        setActive(nodes[i % nodes.length]);
+        i++;
+        if (i >= nodes.length) clearInterval(auto);
+      }, 2200);
+    } else {
+      setActive(nodes[0]);
+    }
+  }
+
+  /* -----------------------------------------------------------
+     7. GALLERY FILTERING
+  ----------------------------------------------------------- */
+  function initGalleryFilter() {
+    const buttons = document.querySelectorAll('.filter-btn');
+    const items = document.querySelectorAll('.gallery-item');
+    if (!buttons.length || !items.length) return;
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.getAttribute('data-filter');
+
+        items.forEach(item => {
+          const match = filter === 'all' || item.getAttribute('data-category') === filter;
+          item.classList.toggle('hidden', !match);
         });
+      });
+    });
+  }
 
-        if (gltf.animations.length) {
-          mixer = new THREE.AnimationMixer(model);
-          gltf.animations.forEach(anim => {
-            mixer.clipAction(anim).play();
-          });
-        }
+  /* -----------------------------------------------------------
+     8. ANIMATED COUNTERS
+     Drives both the Results counters and the Educational
+     Focus percentage stats. Uses IntersectionObserver so the
+     count-up only fires once each element scrolls into view.
+  ----------------------------------------------------------- */
+  function initCounters() {
+    const counters = document.querySelectorAll('.counter, .edu-percent');
+    if (!counters.length) return;
 
-        fitModel(model);
+    function animateCounter(el) {
+      const target = parseInt(el.getAttribute('data-count'), 10) || 0;
+      const isPercent = el.classList.contains('edu-percent');
+      const duration = 1400;
+      const startTime = performance.now();
 
-        if (overlay) {
-          overlay.style.display = 'none';
-        }
-      },
-      function (progress) {
-        if (progress.total) {
-          let percent = Math.round((progress.loaded / progress.total) * 100);
-          if (overlay) {
-            overlay.innerHTML = 'Loading Model ' + percent + '%';
-          }
-        }
-      },
-      function (error) {
-        console.error("Model loading error:", error);
-        if (overlay) {
-          overlay.innerHTML = "Model failed to load";
-        }
+      if (prefersReducedMotion) {
+        el.textContent = target + (isPercent ? '%' : '');
+        return;
       }
-    );
-  }
 
-  /* CAMERA FIT */
-  function fitModel(object) {
-    const box = new THREE.Box3().setFromObject(object);
-    const size = box.getSize(new THREE.Vector3());
-    const center = box.getCenter(new THREE.Vector3());
-
-    object.position.sub(center);
-
-    const max = Math.max(size.x, size.y, size.z);
-
-    /* 🔴 CAMERA DISTANCE */
-    const distance = max * 2.5;
-
-    camera.position.set(distance, distance * 0.7, distance);
-    camera.near = max / 100;
-    camera.far = max * 100;
-    camera.updateProjectionMatrix();
-
-    if (controls) {
-      controls.target.set(0, 0, 0);
-      controls.update();
-    }
-  }
-
-  /* BUTTONS */
-  if (autoRotateBtn) {
-    autoRotateBtn.onclick = () => {
-      if (!controls) return;
-      controls.autoRotate = !controls.autoRotate;
-      autoRotateBtn.classList.toggle('active', controls.autoRotate);
-    };
-  }
-
-  if (resetBtn) {
-    resetBtn.onclick = () => {
-      if (model) {
-        fitModel(model);
+      function frame(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // ease-out-cubic
+        const value = Math.floor(eased * target);
+        el.textContent = value + (isPercent ? '%' : '');
+        if (progress < 1) requestAnimationFrame(frame);
       }
-    };
-  }
-
-  /* RESIZE */
-  function resize() {
-    const w = container.clientWidth;
-    const h = container.clientHeight;
-
-    renderer.setSize(w, h, false);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-  }
-
-  window.addEventListener('resize', resize);
-  resize();
-
-  /* ANIMATION */
-  const clock = new THREE.Clock();
-
-  function animate() {
-    requestAnimationFrame(animate);
-    const delta = clock.getDelta();
-
-    if (mixer) {
-      mixer.update(delta);
+      requestAnimationFrame(frame);
     }
 
-    if (controls) {
-      controls.update();
-    }
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
 
-    renderer.render(scene, camera);
+    counters.forEach(el => observer.observe(el));
   }
 
-  animate();
+  /* -----------------------------------------------------------
+     9. THREE.JS 3D MODEL VIEWER
+     A lightweight orbiting viewer for hero props. Since real
+     .glb assets aren't bundled with this scaffold, each option
+     renders a distinct procedural placeholder mesh built to
+     roughly evoke the named prop (emblem / sword / codex) —
+     swap the buildX() functions for GLTFLoader calls once the
+     real exported models are dropped into /assets/models/.
+  ----------------------------------------------------------- */
+  function initModelViewer() {
+    const canvas = document.getElementById('warModelCanvas');
+    const container = document.getElementById('modelCanvasContainer');
+    const wrap = document.querySelector('.model-viewer-wrap');
+    const select = document.getElementById('modelSelect');
+    const resetBtn = document.getElementById('modelResetBtn');
+    const fullscreenBtn = document.getElementById('modelFullscreenBtn');
+    const loadingEl = document.getElementById('modelLoading');
+    if (!canvas || typeof THREE === 'undefined') return;
 
-  /* START VIEWER */
-  loadModel();
+    let renderer, scene, camera, currentMesh, rafId;
+    let rotationY = 0.6, rotationX = -0.15;
+    let isDragging = false, lastX = 0, lastY = 0;
+    let autoRotate = true;
+    let zoom = 6;
+
+    function init() {
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      scene = new THREE.Scene();
+
+      camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+      camera.position.set(0, 0, zoom);
+
+      const keyLight = new THREE.DirectionalLight(0x00ff88, 1.1);
+      keyLight.position.set(3, 4, 5);
+      scene.add(keyLight);
+
+      const rimLight = new THREE.DirectionalLight(0xC6A664, 0.9);
+      rimLight.position.set(-4, -2, -3);
+      scene.add(rimLight);
+
+      scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+
+      resize();
+      loadModel('emblem');
+      animate();
+
+      window.addEventListener('resize', resize);
+    }
+
+    function resize() {
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+
+    /* ---- Procedural placeholder builders ---- */
+    function buildEmblem() {
+      const group = new THREE.Group();
+      const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(1.4, 0.12, 24, 64),
+        new THREE.MeshStandardMaterial({ color: 0xC6A664, metalness: 0.7, roughness: 0.3 })
+      );
+      group.add(ring);
+      const core = new THREE.Mesh(
+        new THREE.OctahedronGeometry(0.85, 0),
+        new THREE.MeshStandardMaterial({ color: 0x00ff88, metalness: 0.4, roughness: 0.25, emissive: 0x00341c, emissiveIntensity: 0.6 })
+      );
+      group.add(core);
+      return group;
+    }
+
+    function buildSword() {
+      const group = new THREE.Group();
+      const blade = new THREE.Mesh(
+        new THREE.BoxGeometry(0.18, 2.6, 0.05),
+        new THREE.MeshStandardMaterial({ color: 0xe8e8e8, metalness: 0.85, roughness: 0.15 })
+      );
+      blade.position.y = 1.1;
+      group.add(blade);
+
+      const guard = new THREE.Mesh(
+        new THREE.BoxGeometry(0.9, 0.12, 0.12),
+        new THREE.MeshStandardMaterial({ color: 0xC6A664, metalness: 0.7, roughness: 0.3 })
+      );
+      guard.position.y = -0.2;
+      group.add(guard);
+
+      const handle = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.09, 0.09, 0.9, 16),
+        new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.6 })
+      );
+      handle.position.y = -0.7;
+      group.add(handle);
+
+      const pommel = new THREE.Mesh(
+        new THREE.SphereGeometry(0.16, 16, 16),
+        new THREE.MeshStandardMaterial({ color: 0x00ff88, emissive: 0x003d20, emissiveIntensity: 0.7, metalness: 0.5, roughness: 0.3 })
+      );
+      pommel.position.y = -1.2;
+      group.add(pommel);
+
+      group.position.y = -0.1;
+      return group;
+    }
+
+    function buildCodex() {
+      const group = new THREE.Group();
+      const cover = new THREE.Mesh(
+        new THREE.BoxGeometry(1.6, 2.1, 0.28),
+        new THREE.MeshStandardMaterial({ color: 0x0f2e1c, metalness: 0.2, roughness: 0.7 })
+      );
+      group.add(cover);
+
+      const inlay = new THREE.Mesh(
+        new THREE.RingGeometry(0.3, 0.5, 6),
+        new THREE.MeshStandardMaterial({ color: 0xC6A664, metalness: 0.8, roughness: 0.25, side: THREE.DoubleSide })
+      );
+      inlay.position.z = 0.15;
+      group.add(inlay);
+
+      const pages = new THREE.Mesh(
+        new THREE.BoxGeometry(1.45, 1.95, 0.18),
+        new THREE.MeshStandardMaterial({ color: 0xece6d6, roughness: 0.9 })
+      );
+      pages.position.z = -0.02;
+      group.add(pages);
+
+      return group;
+    }
+
+    const BUILDERS = { emblem: buildEmblem, sword: buildSword, codex: buildCodex };
+
+    function loadModel(key) {
+      if (loadingEl) loadingEl.classList.remove('hidden');
+      if (currentMesh) {
+        scene.remove(currentMesh);
+        currentMesh.traverse(obj => {
+          if (obj.geometry) obj.geometry.dispose();
+          if (obj.material) obj.material.dispose();
+        });
+      }
+      // Simulate an async asset load so the loading spinner has a purpose
+      // even though the placeholder geometry builds instantly.
+      setTimeout(() => {
+        const builder = BUILDERS[key] || BUILDERS.emblem;
+        currentMesh = builder();
+        scene.add(currentMesh);
+        resetView();
+        if (loadingEl) loadingEl.classList.add('hidden');
+      }, 250);
+    }
+
+    function resetView() {
+      rotationY = 0.6;
+      rotationX = -0.15;
+      zoom = 6;
+      autoRotate = true;
+    }
+
+    function animate() {
+      rafId = requestAnimationFrame(animate);
+      if (currentMesh) {
+        if (autoRotate && !isDragging) rotationY += 0.004;
+        currentMesh.rotation.y = rotationY;
+        currentMesh.rotation.x = rotationX;
+      }
+      camera.position.z = zoom;
+      renderer.render(scene, camera);
+    }
+
+    /* ---- Pointer controls: drag to orbit, wheel to zoom ---- */
+    function onPointerDown(e) {
+      isDragging = true;
+      autoRotate = false;
+      lastX = e.clientX ?? e.touches?.[0].clientX;
+      lastY = e.clientY ?? e.touches?.[0].clientY;
+    }
+    function onPointerMove(e) {
+      if (!isDragging) return;
+      const x = e.clientX ?? e.touches?.[0].clientX;
+      const y = e.clientY ?? e.touches?.[0].clientY;
+      rotationY += (x - lastX) * 0.008;
+      rotationX += (y - lastY) * 0.008;
+      rotationX = Math.max(-1.1, Math.min(1.1, rotationX));
+      lastX = x;
+      lastY = y;
+    }
+    function onPointerUp() { isDragging = false; }
+
+    canvas.addEventListener('mousedown', onPointerDown);
+    window.addEventListener('mousemove', onPointerMove);
+    window.addEventListener('mouseup', onPointerUp);
+    canvas.addEventListener('touchstart', onPointerDown, { passive: true });
+    canvas.addEventListener('touchmove', onPointerMove, { passive: true });
+    canvas.addEventListener('touchend', onPointerUp);
+
+    canvas.addEventListener('wheel', e => {
+      e.preventDefault();
+      zoom = Math.max(3, Math.min(10, zoom + e.deltaY * 0.005));
+    }, { passive: false });
+
+    /* ---- Toolbar controls ---- */
+    if (select) {
+      select.addEventListener('change', () => loadModel(select.value));
+    }
+    if (resetBtn) {
+      resetBtn.addEventListener('click', resetView);
+    }
+    if (fullscreenBtn && container) {
+      fullscreenBtn.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+          container.requestFullscreen?.();
+        } else {
+          document.exitFullscreen?.();
+        }
+      });
+      document.addEventListener('fullscreenchange', resize);
+    }
+
+    // Pause the render loop when the viewer scrolls off-screen
+    const vis = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          cancelAnimationFrame(rafId);
+        } else if (!rafId) {
+          animate();
+        }
+      });
+    }, { threshold: 0.05 });
+    if (wrap) vis.observe(wrap);
+
+    init();
+  }
+
+  /* -----------------------------------------------------------
+     10. BACK TO TOP
+  ----------------------------------------------------------- */
+  function initBackToTop() {
+    const btn = document.getElementById('backToTop');
+    if (!btn) return;
+
+    window.addEventListener('scroll', () => {
+      btn.classList.toggle('visible', window.scrollY > 600);
+    }, { passive: true });
+
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    });
+  }
+
+  /* -----------------------------------------------------------
+     11. FOOTER YEAR
+  ----------------------------------------------------------- */
+  function initFooterYear() {
+    const el = document.getElementById('footerYear');
+    if (el) el.textContent = new Date().getFullYear();
+  }
+
+  /* -----------------------------------------------------------
+     BOOTSTRAP — run everything once the DOM is ready
+  ----------------------------------------------------------- */
+  document.addEventListener('DOMContentLoaded', () => {
+    initLoader();
+    initParticles();
+    initAOS();
+    initHeaderScroll();
+    initNavToggle();
+    initLoopDiagram();
+    initGalleryFilter();
+    initCounters();
+    initModelViewer();
+    initBackToTop();
+    initFooterYear();
+  });
 })();
