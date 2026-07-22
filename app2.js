@@ -235,286 +235,1012 @@
     });
   }
 
-  /* -----------------------------------------------------------
-     8. ANIMATED COUNTERS
-     Drives both the Results counters and the Educational
-     Focus percentage stats. Uses IntersectionObserver so the
-     count-up only fires once each element scrolls into view.
-  ----------------------------------------------------------- */
-  function initCounters() {
-    const counters = document.querySelectorAll('.counter, .edu-percent');
-    if (!counters.length) return;
+ /* -----------------------------------------------------------
+   8. ANIMATED COUNTERS
+   Results counters + educational percentage counters.
+   Starts when elements enter the viewport.
+----------------------------------------------------------- */
 
-    function animateCounter(el) {
-      const target = parseInt(el.getAttribute('data-count'), 10) || 0;
-      const isPercent = el.classList.contains('edu-percent');
-      const duration = 1400;
-      const startTime = performance.now();
+function initCounters() {
 
-      if (prefersReducedMotion) {
-        el.textContent = target + (isPercent ? '%' : '');
-        return;
-      }
+  const counters = document.querySelectorAll(
+    '.counter, .edu-percent'
+  );
 
-      function frame(now) {
-        const progress = Math.min((now - startTime) / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3); // ease-out-cubic
-        const value = Math.floor(eased * target);
-        el.textContent = value + (isPercent ? '%' : '');
-        if (progress < 1) requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
+  if (!counters.length) return;
+
+
+  const prefersReducedMotion =
+    window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+
+
+  function animateCounter(el) {
+
+
+    const target =
+      parseInt(
+        el.getAttribute('data-count'),
+        10
+      ) || 0;
+
+
+    const isPercent =
+      el.classList.contains(
+        'edu-percent'
+      );
+
+
+    const duration = 1400;
+
+
+    const startTime =
+      performance.now();
+
+
+
+    if (prefersReducedMotion) {
+
+      el.textContent =
+        target +
+        (isPercent ? '%' : '');
+
+      return;
+
     }
 
-    const observer = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          animateCounter(entry.target);
-          obs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.5 });
 
-    counters.forEach(el => observer.observe(el));
+
+    function frame(now) {
+
+
+      const progress =
+        Math.min(
+          (now - startTime) / duration,
+          1
+        );
+
+
+
+      // smooth ease out animation
+
+      const eased =
+        1 -
+        Math.pow(
+          1 - progress,
+          3
+        );
+
+
+
+      const value =
+        Math.floor(
+          eased * target
+        );
+
+
+
+      el.textContent =
+        value +
+        (isPercent ? '%' : '');
+
+
+
+      if (progress < 1) {
+
+        requestAnimationFrame(
+          frame
+        );
+
+      } else {
+
+        el.textContent =
+          target +
+          (isPercent ? '%' : '');
+
+      }
+
+
+    }
+
+
+
+    requestAnimationFrame(frame);
+
+
   }
 
-  /* -----------------------------------------------------------
-     9. THREE.JS 3D MODEL VIEWER
-     A lightweight orbiting viewer for hero props. Since real
-     .glb assets aren't bundled with this scaffold, each option
-     renders a distinct procedural placeholder mesh built to
-     roughly evoke the named prop (emblem / sword / codex) —
-     swap the buildX() functions for GLTFLoader calls once the
-     real exported models are dropped into /assets/models/.
-  ----------------------------------------------------------- */
-  function initModelViewer() {
-    const canvas = document.getElementById('warModelCanvas');
-    const container = document.getElementById('modelCanvasContainer');
-    const wrap = document.querySelector('.model-viewer-wrap');
-    const select = document.getElementById('modelSelect');
-    const resetBtn = document.getElementById('modelResetBtn');
-    const fullscreenBtn = document.getElementById('modelFullscreenBtn');
-    const loadingEl = document.getElementById('modelLoading');
-    if (!canvas || typeof THREE === 'undefined') return;
 
-    let renderer, scene, camera, currentMesh, rafId;
-    let rotationY = 0.6, rotationX = -0.15;
-    let isDragging = false, lastX = 0, lastY = 0;
-    let autoRotate = true;
-    let zoom = 6;
 
-    function init() {
-      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-      scene = new THREE.Scene();
 
-      camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-      camera.position.set(0, 0, zoom);
+  const observer =
+    new IntersectionObserver(
 
-      const keyLight = new THREE.DirectionalLight(0x00ff88, 1.1);
-      keyLight.position.set(3, 4, 5);
-      scene.add(keyLight);
+      (entries, obs) => {
 
-      const rimLight = new THREE.DirectionalLight(0xC6A664, 0.9);
-      rimLight.position.set(-4, -2, -3);
-      scene.add(rimLight);
 
-      scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+        entries.forEach(entry => {
 
-      resize();
-      loadModel('emblem');
-      animate();
 
-      window.addEventListener('resize', resize);
-    }
+          if (entry.isIntersecting) {
 
-    function resize() {
-      const w = container.clientWidth;
-      const h = container.clientHeight;
-      renderer.setSize(w, h, false);
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-    }
 
-    /* ---- Procedural placeholder builders ---- */
-    function buildEmblem() {
-      const group = new THREE.Group();
-      const ring = new THREE.Mesh(
-        new THREE.TorusGeometry(1.4, 0.12, 24, 64),
-        new THREE.MeshStandardMaterial({ color: 0xC6A664, metalness: 0.7, roughness: 0.3 })
-      );
-      group.add(ring);
-      const core = new THREE.Mesh(
-        new THREE.OctahedronGeometry(0.85, 0),
-        new THREE.MeshStandardMaterial({ color: 0x00ff88, metalness: 0.4, roughness: 0.25, emissive: 0x00341c, emissiveIntensity: 0.6 })
-      );
-      group.add(core);
-      return group;
-    }
+            animateCounter(
+              entry.target
+            );
 
-    function buildSword() {
-      const group = new THREE.Group();
-      const blade = new THREE.Mesh(
-        new THREE.BoxGeometry(0.18, 2.6, 0.05),
-        new THREE.MeshStandardMaterial({ color: 0xe8e8e8, metalness: 0.85, roughness: 0.15 })
-      );
-      blade.position.y = 1.1;
-      group.add(blade);
 
-      const guard = new THREE.Mesh(
-        new THREE.BoxGeometry(0.9, 0.12, 0.12),
-        new THREE.MeshStandardMaterial({ color: 0xC6A664, metalness: 0.7, roughness: 0.3 })
-      );
-      guard.position.y = -0.2;
-      group.add(guard);
+            obs.unobserve(
+              entry.target
+            );
 
-      const handle = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.09, 0.09, 0.9, 16),
-        new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.6 })
-      );
-      handle.position.y = -0.7;
-      group.add(handle);
 
-      const pommel = new THREE.Mesh(
-        new THREE.SphereGeometry(0.16, 16, 16),
-        new THREE.MeshStandardMaterial({ color: 0x00ff88, emissive: 0x003d20, emissiveIntensity: 0.7, metalness: 0.5, roughness: 0.3 })
-      );
-      pommel.position.y = -1.2;
-      group.add(pommel);
+          }
 
-      group.position.y = -0.1;
-      return group;
-    }
 
-    function buildCodex() {
-      const group = new THREE.Group();
-      const cover = new THREE.Mesh(
-        new THREE.BoxGeometry(1.6, 2.1, 0.28),
-        new THREE.MeshStandardMaterial({ color: 0x0f2e1c, metalness: 0.2, roughness: 0.7 })
-      );
-      group.add(cover);
-
-      const inlay = new THREE.Mesh(
-        new THREE.RingGeometry(0.3, 0.5, 6),
-        new THREE.MeshStandardMaterial({ color: 0xC6A664, metalness: 0.8, roughness: 0.25, side: THREE.DoubleSide })
-      );
-      inlay.position.z = 0.15;
-      group.add(inlay);
-
-      const pages = new THREE.Mesh(
-        new THREE.BoxGeometry(1.45, 1.95, 0.18),
-        new THREE.MeshStandardMaterial({ color: 0xece6d6, roughness: 0.9 })
-      );
-      pages.position.z = -0.02;
-      group.add(pages);
-
-      return group;
-    }
-
-    const BUILDERS = { emblem: buildEmblem, sword: buildSword, codex: buildCodex };
-
-    function loadModel(key) {
-      if (loadingEl) loadingEl.classList.remove('hidden');
-      if (currentMesh) {
-        scene.remove(currentMesh);
-        currentMesh.traverse(obj => {
-          if (obj.geometry) obj.geometry.dispose();
-          if (obj.material) obj.material.dispose();
         });
+
+
+      },
+
+
+      {
+        threshold:0.15
       }
-      // Simulate an async asset load so the loading spinner has a purpose
-      // even though the placeholder geometry builds instantly.
-      setTimeout(() => {
-        const builder = BUILDERS[key] || BUILDERS.emblem;
-        currentMesh = builder();
-        scene.add(currentMesh);
-        resetView();
-        if (loadingEl) loadingEl.classList.add('hidden');
-      }, 250);
-    }
 
-    function resetView() {
-      rotationY = 0.6;
-      rotationX = -0.15;
-      zoom = 6;
-      autoRotate = true;
-    }
 
-    function animate() {
-      rafId = requestAnimationFrame(animate);
-      if (currentMesh) {
-        if (autoRotate && !isDragging) rotationY += 0.004;
-        currentMesh.rotation.y = rotationY;
-        currentMesh.rotation.x = rotationX;
-      }
-      camera.position.z = zoom;
-      renderer.render(scene, camera);
-    }
+    );
 
-    /* ---- Pointer controls: drag to orbit, wheel to zoom ---- */
-    function onPointerDown(e) {
-      isDragging = true;
-      autoRotate = false;
-      lastX = e.clientX ?? e.touches?.[0].clientX;
-      lastY = e.clientY ?? e.touches?.[0].clientY;
-    }
-    function onPointerMove(e) {
-      if (!isDragging) return;
-      const x = e.clientX ?? e.touches?.[0].clientX;
-      const y = e.clientY ?? e.touches?.[0].clientY;
-      rotationY += (x - lastX) * 0.008;
-      rotationX += (y - lastY) * 0.008;
-      rotationX = Math.max(-1.1, Math.min(1.1, rotationX));
-      lastX = x;
-      lastY = y;
-    }
-    function onPointerUp() { isDragging = false; }
 
-    canvas.addEventListener('mousedown', onPointerDown);
-    window.addEventListener('mousemove', onPointerMove);
-    window.addEventListener('mouseup', onPointerUp);
-    canvas.addEventListener('touchstart', onPointerDown, { passive: true });
-    canvas.addEventListener('touchmove', onPointerMove, { passive: true });
-    canvas.addEventListener('touchend', onPointerUp);
 
-    canvas.addEventListener('wheel', e => {
-      e.preventDefault();
-      zoom = Math.max(3, Math.min(10, zoom + e.deltaY * 0.005));
-    }, { passive: false });
 
-    /* ---- Toolbar controls ---- */
-    if (select) {
-      select.addEventListener('change', () => loadModel(select.value));
-    }
-    if (resetBtn) {
-      resetBtn.addEventListener('click', resetView);
-    }
-    if (fullscreenBtn && container) {
-      fullscreenBtn.addEventListener('click', () => {
-        if (!document.fullscreenElement) {
-          container.requestFullscreen?.();
-        } else {
-          document.exitFullscreen?.();
-        }
-      });
-      document.addEventListener('fullscreenchange', resize);
-    }
 
-    // Pause the render loop when the viewer scrolls off-screen
-    const vis = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) {
-          cancelAnimationFrame(rafId);
-        } else if (!rafId) {
-          animate();
-        }
-      });
-    }, { threshold: 0.05 });
-    if (wrap) vis.observe(wrap);
+  counters.forEach(counter => {
 
-    init();
+    observer.observe(counter);
+
+  });
+
+
+}
+
+
+
+
+
+/* -----------------------------------------------------------
+   START COUNTERS
+----------------------------------------------------------- */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    initCounters();
+
   }
+);
+/* ==========================================
+   3D MODEL VIEWER — WAR OF KNOWLEDGE GLB
+
+   Models:
+   images/models/
+   ├── bahaa.glb
+   ├── ayham.glb
+   ├── lalo.glb
+   └── zaid.glb
+
+========================================== */
+
+
+(function modelViewer(){
+
+
+const canvas =
+document.getElementById("modelCanvas");
+
+
+if(!canvas || !window.THREE)
+return;
+
+
+
+const container =
+canvas.parentElement;
+
+
+const overlay =
+document.getElementById("viewerOverlay");
+
+
+const select =
+document.getElementById("modelSelect");
+
+
+const autoRotateBtn =
+document.getElementById("autoRotateBtn");
+
+
+const resetBtn =
+document.getElementById("resetViewBtn");
+
+
+
+let model = null;
+
+let mixer = null;
+
+let controls = null;
+
+
+
+/* ==========================================
+   MODELS
+========================================== */
+
+
+const MODELS = {
+
+
+north:
+"images/bahaa.glb",
+
+
+east:
+"images/ayham.glb",
+
+
+west:
+"images/lalo.glb",
+
+
+south:
+"images/zaid.glb"
+
+
+};
+
+
+
+
+/* ==========================================
+   SCENE
+========================================== */
+
+
+const scene =
+new THREE.Scene();
+
+
+scene.background = null;
+
+
+
+
+/* CAMERA */
+
+
+const camera =
+new THREE.PerspectiveCamera(
+45,
+1,
+0.01,
+1000
+);
+
+
+camera.position.set(
+0,
+1,
+5
+);
+
+
+
+
+
+/* RENDERER */
+
+
+const renderer =
+new THREE.WebGLRenderer({
+
+canvas:canvas,
+
+antialias:true,
+
+alpha:true
+
+});
+
+
+renderer.setPixelRatio(
+Math.min(
+window.devicePixelRatio,
+2
+)
+);
+
+
+renderer.shadowMap.enabled = true;
+
+
+
+
+
+/* ==========================================
+   LIGHTS
+========================================== */
+
+
+scene.add(
+new THREE.AmbientLight(
+0xffffff,
+0.5
+)
+);
+
+
+
+const key =
+new THREE.DirectionalLight(
+0xffffff,
+1.8
+);
+
+
+key.position.set(
+5,
+8,
+5
+);
+
+
+key.castShadow = true;
+
+
+scene.add(key);
+
+
+
+
+const greenLight =
+new THREE.PointLight(
+0x00ff88,
+2,
+20
+);
+
+
+greenLight.position.set(
+-4,
+3,
+-4
+);
+
+
+scene.add(greenLight);
+
+
+
+
+
+const goldLight =
+new THREE.PointLight(
+0xc6a664,
+1.5,
+20
+);
+
+
+goldLight.position.set(
+4,
+-2,
+3
+);
+
+
+scene.add(goldLight);
+
+
+
+
+
+/* ==========================================
+   GRID
+========================================== */
+
+
+const grid =
+new THREE.GridHelper(
+10,
+25,
+0x00ff88,
+0x222222
+);
+
+
+
+grid.material.transparent = true;
+
+grid.material.opacity = .25;
+
+
+grid.position.y = -2.5;
+
+grid.position.z = 1;
+
+
+scene.add(grid);
+
+
+
+
+
+/* ==========================================
+   CONTROLS
+========================================== */
+
+
+if(THREE.OrbitControls){
+
+
+controls =
+new THREE.OrbitControls(
+camera,
+renderer.domElement
+);
+
+
+
+controls.enableDamping = true;
+
+controls.dampingFactor = .08;
+
+
+controls.autoRotate = true;
+
+controls.autoRotateSpeed = .8;
+
+
+controls.minDistance = 1;
+
+controls.maxDistance = 20;
+
+
+}
+
+
+
+
+
+
+
+/* ==========================================
+   LOAD MODEL
+========================================== */
+
+
+function loadModel(type){
+
+
+
+if(!MODELS[type]){
+
+
+console.error(
+"MODEL NOT FOUND:",
+type
+);
+
+
+return;
+
+}
+
+
+
+
+const loader =
+new THREE.GLTFLoader();
+
+
+
+if(overlay){
+
+
+overlay.style.display =
+"block";
+
+
+overlay.innerHTML =
+"Loading Model 0%";
+
+
+}
+
+
+
+
+
+loader.load(
+
+
+MODELS[type],
+
+
+
+function(gltf){
+
+
+
+if(model){
+
+scene.remove(model);
+
+}
+
+
+
+
+
+model =
+gltf.scene;
+
+
+
+scene.add(model);
+
+
+
+
+
+model.traverse(
+child=>{
+
+
+if(child.isMesh){
+
+
+child.castShadow = true;
+
+
+child.receiveShadow = true;
+
+
+}
+
+
+
+}
+
+);
+
+
+
+
+
+
+if(gltf.animations.length){
+
+
+mixer =
+new THREE.AnimationMixer(
+model
+);
+
+
+
+gltf.animations.forEach(
+clip=>{
+
+
+mixer
+.clipAction(clip)
+.play();
+
+
+
+}
+
+);
+
+
+}
+
+
+
+
+
+fitModel(model);
+
+
+
+
+
+if(overlay)
+
+overlay.style.display =
+"none";
+
+
+
+console.log(
+"Loaded:",
+type
+);
+
+
+
+},
+
+
+
+
+
+function(xhr){
+
+
+
+if(xhr.total && overlay){
+
+
+let percent =
+Math.round(
+(xhr.loaded /
+xhr.total)
+*100
+);
+
+
+
+overlay.innerHTML =
+"Loading Model "
++
+percent
++
+"%";
+
+
+
+}
+
+
+
+},
+
+
+
+
+
+function(error){
+
+
+
+console.error(
+"GLB ERROR:",
+error
+);
+
+
+
+if(overlay)
+
+overlay.innerHTML =
+"Model Failed";
+
+
+
+}
+
+
+
+);
+
+
+
+}
+
+
+
+
+
+
+
+/* ==========================================
+   FIT MODEL
+========================================== */
+
+
+function fitModel(object){
+
+
+
+const box =
+new THREE.Box3()
+.setFromObject(object);
+
+
+
+
+const size =
+box.getSize(
+new THREE.Vector3()
+);
+
+
+
+const center =
+box.getCenter(
+new THREE.Vector3()
+);
+
+
+
+object.position.sub(center);
+
+
+
+
+const max =
+Math.max(
+size.x,
+size.y,
+size.z
+);
+
+
+
+const distance =
+max * 2.8;
+
+
+
+camera.position.set(
+
+distance,
+
+distance*.7,
+
+distance
+
+);
+
+
+
+
+camera.near =
+max/100;
+
+
+
+camera.far =
+max*100;
+
+
+camera.updateProjectionMatrix();
+
+
+
+
+if(controls){
+
+
+controls.target.set(
+0,
+0,
+0
+);
+
+
+controls.update();
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+/* ==========================================
+   SELECT
+========================================== */
+
+
+if(select){
+
+
+select.onchange = ()=>{
+
+
+loadModel(
+select.value
+);
+
+
+};
+
+
+}
+
+
+
+
+
+
+
+/* BUTTONS */
+
+
+if(autoRotateBtn){
+
+
+autoRotateBtn.onclick = ()=>{
+
+
+if(!controls)
+return;
+
+
+
+controls.autoRotate =
+!controls.autoRotate;
+
+
+
+};
+
+
+}
+
+
+
+
+if(resetBtn){
+
+
+resetBtn.onclick = ()=>{
+
+
+if(model)
+
+fitModel(model);
+
+
+
+};
+
+
+}
+
+
+
+
+
+
+
+
+/* RESIZE */
+
+
+function resize(){
+
+
+
+const w =
+container.clientWidth;
+
+
+const h =
+container.clientHeight;
+
+
+
+renderer.setSize(
+w,
+h,
+false
+);
+
+
+
+camera.aspect =
+w/h;
+
+
+
+camera.updateProjectionMatrix();
+
+
+
+}
+
+
+
+window.addEventListener(
+"resize",
+resize
+);
+
+
+resize();
+
+
+
+
+
+
+
+/* ANIMATION */
+
+
+const clock =
+new THREE.Clock();
+
+
+
+function animate(){
+
+
+
+requestAnimationFrame(
+animate
+);
+
+
+
+const delta =
+clock.getDelta();
+
+
+
+if(mixer)
+
+mixer.update(delta);
+
+
+
+if(controls)
+
+controls.update();
+
+
+
+renderer.render(
+scene,
+camera
+);
+
+
+
+}
+
+
+
+animate();
+
+
+
+
+
+
+/* START MODEL */
+
+
+loadModel("north");
+
+
+
+})();
 
   /* -----------------------------------------------------------
      10. BACK TO TOP

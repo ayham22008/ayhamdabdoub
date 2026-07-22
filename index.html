@@ -183,14 +183,14 @@
         <p>A quick look through the lens — drag, swipe, or let it spin on its own.</p>
     </div>
 
-    <div class="carousel-3d" id="galleryCarousel">
+    <div class="carousel-3d" id="galleryCarousel" data-aos="zoom-in">
 
         <button class="carousel-arrow prev" id="carouselPrev" aria-label="Previous photo">
             <i class="fa-solid fa-chevron-left"></i>
         </button>
 
         <div class="carousel-stage" id="carouselStage">
-            <!-- 10 items injected by JS: images/gallery/1.jpg ... 10.jpg -->
+            <!-- 10 items injected by JS: images/1.png ... 10.png -->
         </div>
 
         <button class="carousel-arrow next" id="carouselNext" aria-label="Next photo">
@@ -199,7 +199,10 @@
 
     </div>
 
-    <div class="carousel-dots" id="carouselDots"></div>
+    <div class="carousel-meta">
+        <div class="carousel-dots" id="carouselDots"></div>
+        <span class="carousel-counter" id="carouselCounter">1 / 10</span>
+    </div>
 
     <p class="carousel-hint"><i class="fa-solid fa-arrows-left-right"></i> Drag to spin the gallery</p>
 
