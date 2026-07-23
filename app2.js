@@ -235,195 +235,50 @@
     });
   }
 
- /* -----------------------------------------------------------
-   8. ANIMATED COUNTERS
-   Results counters + educational percentage counters.
-   Starts when elements enter the viewport.
------------------------------------------------------------ */
+  /* -----------------------------------------------------------
+     8. ANIMATED COUNTERS
+     Drives both the Results counters and the Educational
+     Focus percentage stats. Uses IntersectionObserver so the
+     count-up only fires once each element scrolls into view.
+  ----------------------------------------------------------- */
+  function initCounters() {
+    const counters = document.querySelectorAll('.counter, .edu-percent');
+    if (!counters.length) return;
 
-function initCounters() {
+    function animateCounter(el) {
+      const target = parseInt(el.getAttribute('data-count'), 10) || 0;
+      const isPercent = el.classList.contains('edu-percent');
+      const duration = 1400;
+      const startTime = performance.now();
 
-  const counters = document.querySelectorAll(
-    '.counter, .edu-percent'
-  );
-
-  if (!counters.length) return;
-
-
-  const prefersReducedMotion =
-    window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
-
-
-
-  function animateCounter(el) {
-
-
-    const target =
-      parseInt(
-        el.getAttribute('data-count'),
-        10
-      ) || 0;
-
-
-    const isPercent =
-      el.classList.contains(
-        'edu-percent'
-      );
-
-
-    const duration = 1400;
-
-
-    const startTime =
-      performance.now();
-
-
-
-    if (prefersReducedMotion) {
-
-      el.textContent =
-        target +
-        (isPercent ? '%' : '');
-
-      return;
-
-    }
-
-
-
-    function frame(now) {
-
-
-      const progress =
-        Math.min(
-          (now - startTime) / duration,
-          1
-        );
-
-
-
-      // smooth ease out animation
-
-      const eased =
-        1 -
-        Math.pow(
-          1 - progress,
-          3
-        );
-
-
-
-      const value =
-        Math.floor(
-          eased * target
-        );
-
-
-
-      el.textContent =
-        value +
-        (isPercent ? '%' : '');
-
-
-
-      if (progress < 1) {
-
-        requestAnimationFrame(
-          frame
-        );
-
-      } else {
-
-        el.textContent =
-          target +
-          (isPercent ? '%' : '');
-
+      if (prefersReducedMotion) {
+        el.textContent = target + (isPercent ? '%' : '');
+        return;
       }
 
-
+      function frame(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // ease-out-cubic
+        const value = Math.floor(eased * target);
+        el.textContent = value + (isPercent ? '%' : '');
+        if (progress < 1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
     }
 
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
 
-
-    requestAnimationFrame(frame);
-
-
+    counters.forEach(el => observer.observe(el));
   }
 
-
-
-
-
-  const observer =
-    new IntersectionObserver(
-
-      (entries, obs) => {
-
-
-        entries.forEach(entry => {
-
-
-          if (entry.isIntersecting) {
-
-
-            animateCounter(
-              entry.target
-            );
-
-
-            obs.unobserve(
-              entry.target
-            );
-
-
-          }
-
-
-        });
-
-
-      },
-
-
-      {
-        threshold:0.15
-      }
-
-
-    );
-
-
-
-
-
-  counters.forEach(counter => {
-
-    observer.observe(counter);
-
-  });
-
-
-}
-
-
-
-
-
-/* -----------------------------------------------------------
-   START COUNTERS
------------------------------------------------------------ */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-
-    initCounters();
-
-  }
-);
-/* ==========================================
+ /* ==========================================
    3D MODEL VIEWER — WAR OF KNOWLEDGE GLB
 
    Models:
@@ -1243,6 +1098,177 @@ loadModel("north");
 })();
 
   /* -----------------------------------------------------------
+     9B. STORY BOARD
+     Single-image narrative slider through 82 illustrated scenes.
+     Rebuilt from scratch — the original version had a filename
+     mismatch (images/s(${n}).png instead of images/s${n}.png),
+     an inconsistent scene count (looped at 83 while only 82
+     images/captions exist), and read `descriptions` before it
+     was ever declared. Fixed here, plus added: a crossfade
+     between images instead of an instant swap, a progress bar,
+     drag/swipe support to match the rest of the site, and
+     left/right arrow-key navigation while the section is in view.
+  ----------------------------------------------------------- */
+  function initStoryBoard() {
+    const image = document.getElementById('storyImage');
+    const description = document.getElementById('storyDescription');
+    const title = document.getElementById('storyTitle');
+    const number = document.getElementById('storyNumber');
+    const totalEl = document.getElementById('storyTotal');
+    const progressBar = document.getElementById('storyProgressBar');
+    const nextBtn = document.getElementById('storyNext');
+    const prevBtn = document.getElementById('storyPrev');
+    const section = document.getElementById('storyboard');
+    if (!image || !nextBtn || !prevBtn) return;
+
+    const TOTAL = 71;
+    let current = 1;
+
+
+    const descriptions = {
+      1: "Introducing the four characters : Lalo, Ayham, Zaid, and Baha'a.",
+      2: "the start of the journey.",
+      3: "establishing the room of ayham (the inventor).",
+      4: "ayham in his room, laboratory.",
+      5: "establishing the BAU university where zaid studies.",
+      6: "zaid in the university (the student).",
+      7: "establishing the library where lalo reads books.",
+      8: "lalo in the library(the book reader).",
+      9: "establishing the gym where baha'a trains.",
+      10: "baha'a in the gym (the strong one).",
+      11: "zaid receives a message in the university.",
+      12: "the massage says lets meet at the cafe.",
+      13: "ayham receives a message in his room.",
+      14: "The message contains urgent news about the meeting.",
+      15: "baha'a receives a message in the gym.",
+      16: "The message says the meeting is at the cafe.",
+      17: "lalo receives a message in the library.",
+      18: "the group send a message about the meeting.",
+      19: "The meeting was scheduled at night in the cafe.",
+      20: "establishing the cafe where the meeting will take place.",
+      21: "the four friends gather at the cafe.",
+      22: "They discuss about the Parallel worlds and their existing.",
+      23: "The discussion continues and they ask if there is another worlds with different peoples,time and culture .",
+      24: "suddenly, the lights went out and on and the land start shaking.",
+      25: "there phone started ringing and lighting up in a strange way.",
+      26: "then a mysterious white light appeared.",
+      27: "then thay woke up in a strange place named (wisdom land).",
+      28: "Introducing the four kings king of east ,north ,south and west .",
+      29: "establishing the kingdoms of east.",
+      30: "ayham arrives at the east kingdom.",
+      31: "ayham talks to the people of East.",
+      32: "establishing the kingdom of south.",
+      33: "zaid arrives at the south sea.",
+      34: "zaid communicates with the south pirates.",
+      35: "establishing the kingdom of north.",
+      36: "baha'a arrives at the north kingdom.",
+      37: "baha'a talks to the vaiking.",
+      38: "establishing the kingdom of west.",
+      39: "lalo arrives at the west kingdom.",
+      40: "lalo talks to the sherif of the west.",
+      41: "now the four kings have gathered the wisdome land into four kingdoms.",
+      42: "establishing the castle of north.",
+      43: "baha'a lives in his castle up in the mountains of north.",
+      44: "establishing the castle of east.",
+      45: "ayham lives in his castle in the heart of the east desert.",
+      46: "establishing the castle of west.",
+      47: "lalo lives in his castle in the heart of the west jungle.",
+      48: "establishing the castle of south.",
+      49: "zaid lives in his castle ship in the south sea.",
+      50: "the map of wisdom land shows the four kingdoms beforethe war began.",
+      51: "the four kings are going to faight each other for intelligence and resources.",
+      52: "establishing the army camp of north.",
+      53: "the army of vaiking are ready to enter the war of knowledge.",
+      54: "establishing the army ships of south.",
+      55: "the pirates are ready to enter the war of knowledge.",
+      56: "establishing the army of east.",
+      57: "the arab are ready to enter the war of knowledge.",
+      58: "establishing the castle of west.",
+      59: "the westren people are ready to enter the war of knowledge.",
+      60: "the map of wisdom land shows the new borders of the four kingdoms after war.",
+      61: "the war has ended and everything is receiving a message to back to their world .",
+      62: "baha'a returns to his kingdom and found the letter.",
+      63: "the message says that you have completed your mission and connected the lands of north even with the diffecalt weather and now is the time for another king to rule the north.",
+      64: "ayham returns to his kingdom and found the letter.",
+      65: "the message says that you have completed your mission and connected the lands of east even with the diffecalt weather and desarts and now is the time for another king to rule the east.",
+      66: "lalo returns to his kingdom and found the letter.",
+      67: "the message says that you have completed your mission and connected the lands of west even with the diffecalt people and cultures and now is the time for another king to rule the west.",
+      68: "zaid returns to his kingdom and found the letter.",
+      69: "the message says that you have completed your mission and connected the lands of south even with the diffecalt seas and oceans and now is the time for another king to rule the south.",
+      70: "the war continues but with deffrent kings the first kings have made the lands and start the  war and now is your turn to be the king and rule the wisdom land.",
+      71: "the end. thank you for playing the war of knowledge.",
+    };
+
+    if (totalEl) totalEl.textContent = TOTAL;
+
+    function updateStory() {
+      // Crossfade instead of an instant image swap
+      image.style.opacity = '0';
+      window.setTimeout(() => {
+        image.src = `images/ss/s${current}.png`;
+      }, prefersReducedMotion ? 0 : 160);
+      image.onload = () => { image.style.opacity = '1'; };
+
+      if (title) title.textContent = `Scene ${current}`;
+      if (number) number.textContent = current;
+      if (description) {
+        description.textContent =
+          descriptions[current] || 'Visual scene from the War of Knowledge story.';
+      }
+      if (progressBar) progressBar.style.width = `${(current / TOTAL) * 100}%`;
+    }
+
+    function next() { current = current >= TOTAL ? 1 : current + 1; updateStory(); }
+    function prev() { current = current <= 1 ? TOTAL : current - 1; updateStory(); }
+
+    nextBtn.addEventListener('click', next);
+    prevBtn.addEventListener('click', prev);
+
+    /* Drag/swipe on the image itself, matching the gallery carousel elsewhere on the page */
+    let dragging = false;
+    let startX = 0;
+    image.style.cursor = 'grab';
+
+    function dragStart(e) {
+      dragging = true;
+      startX = (e.touches ? e.touches[0].clientX : e.clientX);
+      image.style.cursor = 'grabbing';
+    }
+    function dragEnd(e) {
+      if (!dragging) return;
+      dragging = false;
+      image.style.cursor = 'grab';
+      const endX = (e.changedTouches ? e.changedTouches[0].clientX : e.clientX);
+      const delta = endX - startX;
+      if (delta > 50) prev();
+      else if (delta < -50) next();
+    }
+    image.addEventListener('mousedown', dragStart);
+    window.addEventListener('mouseup', dragEnd);
+    image.addEventListener('touchstart', dragStart, { passive: true });
+    image.addEventListener('touchend', dragEnd);
+
+    /* Left/right arrow keys, only while the section is on screen
+       so they don't hijack scrolling/typing elsewhere on the page */
+    if (section) {
+      let inView = false;
+      const observer = new IntersectionObserver(
+        entries => entries.forEach(entry => { inView = entry.isIntersecting; }),
+        { threshold: 0.4 }
+      );
+      observer.observe(section);
+
+      document.addEventListener('keydown', e => {
+        if (!inView) return;
+        if (e.key === 'ArrowRight') next();
+        if (e.key === 'ArrowLeft') prev();
+      });
+    }
+
+    updateStory();
+  }
+
+  /* -----------------------------------------------------------
      10. BACK TO TOP
   ----------------------------------------------------------- */
   function initBackToTop() {
@@ -1268,18 +1294,40 @@ loadModel("north");
 
   /* -----------------------------------------------------------
      BOOTSTRAP — run everything once the DOM is ready
+
+     Each init runs in its own try/catch. Before this change,
+     one function throwing (initModelViewer is the most likely
+     culprit — it depends on Three.js and WebGL) would silently
+     stop every init AFTER it in this list from ever running,
+     since they were called back-to-back with nothing catching
+     the error. That would explain buttons "doing nothing" —
+     their addEventListener calls simply never happened. Wrapping
+     each call means a failure in one module (logged to the
+     console, not swallowed) can't take out the rest of the page.
   ----------------------------------------------------------- */
+  function safeInit(name, fn) {
+    try {
+      fn();
+    } catch (err) {
+      console.error(`[app2.js] ${name} failed to initialize:`, err);
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
-    initLoader();
-    initParticles();
-    initAOS();
-    initHeaderScroll();
-    initNavToggle();
-    initLoopDiagram();
-    initGalleryFilter();
-    initCounters();
-    initModelViewer();
-    initBackToTop();
-    initFooterYear();
+    safeInit('initLoader', initLoader);
+    safeInit('initParticles', initParticles);
+    safeInit('initAOS', initAOS);
+    safeInit('initHeaderScroll', initHeaderScroll);
+    safeInit('initNavToggle', initNavToggle);
+    safeInit('initLoopDiagram', initLoopDiagram);
+    safeInit('initGalleryFilter', initGalleryFilter);
+    safeInit('initCounters', initCounters);
+    safeInit('initStoryBoard', initStoryBoard);
+    safeInit('initBackToTop', initBackToTop);
+    safeInit('initFooterYear', initFooterYear);
+    // Three.js/WebGL dependent — runs last so a failure here
+    // (missing library, no WebGL support, etc.) can never block
+    // any of the simpler, more important interactions above.
+    safeInit('initModelViewer', initModelViewer);
   });
 })();

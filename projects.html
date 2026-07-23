@@ -166,7 +166,7 @@ is not strength, but knowledge.
     <div class="glass-card overview-card" data-aos="fade-up" data-aos-delay="300">
       <i class="fa-solid fa-hourglass-half"></i>
       <h3>Duration</h3>
-      <p>18 s</p>
+      <p>18 months</p>
     </div>
     <div class="glass-card overview-card" data-aos="fade-up" data-aos-delay="360">
       <i class="fa-solid fa-language"></i>
@@ -1372,40 +1372,47 @@ Knowledge Shield — protects resources and restores lost knowledge.
   </div>
 </section>
 
+<!-- =========================================================
+     04B — STORY BOARD
+     Full illustrated walkthrough of the narrative — 82 scenes,
+     one image + caption at a time, driven by the initStoryBoard()
+     function in app2.js.
+========================================================= -->
 <section class="section alt-bg" id="storyboard">
   <div class="section-head" data-aos="fade-up">
     <span class="eyebrow">The Journey</span>
-    <h2 class="section-title">Story Board</h2>
-    <p class="section-description">
-      Explore the complete visual story of War of Knowledge.
-    </p>
+    <h2 class="section-title">Story <span class="accent-gold">Board</span></h2>
+    <p class="section-sub">Explore the complete visual story of War of Knowledge, scene by scene.</p>
   </div>
-
+ 
   <div class="storyboard-container glass-card" data-aos="zoom-in">
+ 
     <div class="story-image-box">
-      <img id="storyImage" src="images/ss/s1.png" alt="Story Board Scene" />
+      <img id="storyImage" src="images/ss/s1.png" alt="Story board scene 1" draggable="false">
     </div>
-
+ 
+    <div class="story-progress"><span id="storyProgressBar"></span></div>
+ 
     <div class="story-info">
       <h3 id="storyTitle">Scene 1</h3>
-      <p id="storyDescription">
-        In a world built on knowledge, four powerful kingdoms lived in peace.
-      </p>
+      <p id="storyDescription">The beginning of the legendary journey into Wisdom Land.</p>
     </div>
-
+ 
     <div class="story-controls">
-     <button id="storyPrev" aria-label="Previous Scene">
-    <i class="fa-solid fa-chevron-left"></i>
-</button>
-
-<div class="story-counter">
-        <span id="storyNumber">1</span> / 82
+      <button id="storyPrev" aria-label="Previous scene">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+ 
+      <div class="story-counter">
+        <span id="storyNumber">1</span> / <span id="storyTotal">82</span>
       </div>
-
-<button id="storyNext" aria-label="Next Scene">
-    <i class="fa-solid fa-chevron-right"></i>
-</button>
+ 
+      <button id="storyNext" aria-label="Next scene">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
     </div>
+ 
+    <p class="story-hint"><i class="fa-solid fa-keyboard"></i> Use the arrow keys, or drag left/right</p>
   </div>
 </section>
 <!-- =========================================================
@@ -1670,28 +1677,112 @@ Knowledge Shield — protects resources and restores lost knowledge.
 
   <div class="gallery-grid" id="galleryGrid">
     <figure class="gallery-item" data-category="concept" data-aos="fade-up">
-      <img src="images/1.png" alt="Concept art: Kingdom of Wisdom skyline">
+      <img src="images/g1.png" alt="Concept art: Kingdom of Wisdom skyline">
     </figure>
     <figure class="gallery-item" data-category="ui" data-aos="fade-up" data-aos-delay="60">
-      <img src="images/2.png" alt="UI mockup: territory map screen">
+      <img src="images/g2.png" alt="UI mockup: territory map screen">
     </figure>
     <figure class="gallery-item" data-category="characters" data-aos="fade-up" data-aos-delay="120">
-      <img src="images/3.png" alt="Character sheet: Queen Amina Al-Alimah">
+      <img src="images/g3.png" alt="Character sheet: Queen Amina Al-Alimah">
     </figure>
     <figure class="gallery-item" data-category="environments" data-aos="fade-up" data-aos-delay="180">
-      <img src="images/4.png" alt="Environment art: Kingdom of Faith courtyard">
+      <img src="images/g4.png" alt="Environment art: Kingdom of Faith courtyard">
     </figure>
     <figure class="gallery-item" data-category="concept" data-aos="fade-up" data-aos-delay="240">
-      <img src="images/5.png" alt="Concept art: Jahl the Shadow of Ignorance">
+      <img src="images/g5.png" alt="Concept art: Jahl the Shadow of Ignorance">
     </figure>
     <figure class="gallery-item" data-category="ui" data-aos="fade-up" data-aos-delay="300">
-      <img src="images/6.png" alt="UI mockup: battle question screen">
+      <img src="images/g6.png" alt="UI mockup: battle question screen">
     </figure>
     <figure class="gallery-item" data-category="environments" data-aos="fade-up" data-aos-delay="360">
-      <img src="images/7.png" alt="Environment art: Kingdom of Knowledge library interior">
+      <img src="images/g7.png" alt="Environment art: Kingdom of Knowledge library interior">
     </figure>
     <figure class="gallery-item" data-category="characters" data-aos="fade-up" data-aos-delay="420">
-      <img src="images/8.png" alt="Character sheet: the Student avatar customization">
+      <img src="images/g8.png" alt="Character sheet: the Student avatar customization">
+    </figure>
+    <figure class="gallery-item" data-category="concept" data-aos="fade-up">
+      <img src="images/g9.png" alt="Concept art: Kingdom of Wisdom skyline">
+    </figure>
+    <figure class="gallery-item" data-category="ui" data-aos="fade-up" data-aos-delay="60">
+      <img src="images/g10.png" alt="UI mockup: territory map screen">
+    </figure>
+    <figure class="gallery-item" data-category="characters" data-aos="fade-up" data-aos-delay="120">
+      <img src="images/g11.png" alt="Character sheet: Queen Amina Al-Alimah">
+    </figure>
+    <figure class="gallery-item" data-category="environments" data-aos="fade-up" data-aos-delay="180">
+      <img src="images/g12.png"alt="Environment art: Kingdom of Faith courtyard">
+    </figure>
+    <figure class="gallery-item" data-category="concept" data-aos="fade-up" data-aos-delay="240">
+      <img src="images/g13.png" alt="Concept art: Jahl the Shadow of Ignorance">
+    </figure>
+    <figure class="gallery-item" data-category="ui" data-aos="fade-up" data-aos-delay="300">
+      <img src="images/g14.png" alt="UI mockup: battle question screen">
+    </figure>
+    <figure class="gallery-item" data-category="environments" data-aos="fade-up" data-aos-delay="360">
+      <img src="images/g15.png" alt="Environment art: Kingdom of Knowledge library interior">
+    </figure>
+    <figure class="gallery-item" data-category="characters" data-aos="fade-up" data-aos-delay="420">
+      <img src="images/g16.png" alt="Character sheet: the Student avatar customization">
+    </figure>
+    <figure class="gallery-item" data-category="concept" data-aos="fade-up">
+      <img src="images/g17.png" alt="Concept art: Kingdom of Wisdom skyline">
+    </figure>
+    <figure class="gallery-item" data-category="ui" data-aos="fade-up" data-aos-delay="60">
+      <img src="images/g18.png" alt="UI mockup: territory map screen">
+    </figure>
+    <figure class="gallery-item" data-category="characters" data-aos="fade-up" data-aos-delay="120">
+      <img src="images/g19.png" alt="Character sheet: Queen Amina Al-Alimah">
+    </figure>
+    <figure class="gallery-item" data-category="environments" data-aos="fade-up" data-aos-delay="180">
+      <img src="images/g20.png" alt="Environment art: Kingdom of Faith courtyard">
+    </figure>
+    <figure class="gallery-item" data-category="concept" data-aos="fade-up" data-aos-delay="240">
+      <img src="images/g21.png" alt="Concept art: Jahl the Shadow of Ignorance">
+    </figure>
+    <figure class="gallery-item" data-category="ui" data-aos="fade-up" data-aos-delay="300">
+      <img src="images/g22.png" alt="UI mockup: battle question screen">
+    </figure>
+    <figure class="gallery-item" data-category="environments" data-aos="fade-up" data-aos-delay="360">
+      <img src="images/g23.png" alt="Environment art: Kingdom of Knowledge library interior">
+    </figure>
+    <figure class="gallery-item" data-category="characters" data-aos="fade-up" data-aos-delay="420">
+      <img src="images/g24.png" alt="Character sheet: the Student avatar customization">
+    </figure>
+    <figure class="gallery-item" data-category="concept" data-aos="fade-up">
+      <img src="images/g25.png" alt="Concept art: Kingdom of Wisdom skyline">
+    </figure>
+    <figure class="gallery-item" data-category="ui" data-aos="fade-up" data-aos-delay="60">
+      <img src="images/g26.png" alt="UI mockup: territory map screen">
+    </figure>
+    <figure class="gallery-item" data-category="characters" data-aos="fade-up" data-aos-delay="120">
+      <img src="images/g27.png" alt="Character sheet: Queen Amina Al-Alimah">
+    </figure>
+    <figure class="gallery-item" data-category="environments" data-aos="fade-up" data-aos-delay="180">
+      <img src="images/g28.png" alt="Environment art: Kingdom of Faith courtyard">
+    </figure>
+    <figure class="gallery-item" data-category="concept" data-aos="fade-up" data-aos-delay="240">
+      <img src="images/g29.png" alt="Concept art: Jahl the Shadow of Ignorance">
+    </figure>
+    <figure class="gallery-item" data-category="ui" data-aos="fade-up" data-aos-delay="300">
+      <img src="images/g30.png" alt="UI mockup: battle question screen">
+    </figure>
+    <figure class="gallery-item" data-category="environments" data-aos="fade-up" data-aos-delay="360">
+      <img src="images/g31.png" alt="Environment art: Kingdom of Knowledge library interior">
+    </figure>
+    <figure class="gallery-item" data-category="characters" data-aos="fade-up" data-aos-delay="420">
+      <img src="images/g32.png" alt="Character sheet: the Student avatar customization">
+    </figure>
+     <figure class="gallery-item" data-category="characters" data-aos="fade-up" data-aos-delay="420">
+      <img src="images/aa.png" alt="Character sheet: the Student avatar customization">
+    </figure>
+     <figure class="gallery-item" data-category="characters" data-aos="fade-up" data-aos-delay="420">
+      <img src="images/ab.png" alt="Character sheet: the Student avatar customization">
+    </figure>
+     <figure class="gallery-item" data-category="characters" data-aos="fade-up" data-aos-delay="420">
+      <img src="images/ac.png" alt="Character sheet: the Student avatar customization">
+    </figure>
+     <figure class="gallery-item" data-category="characters" data-aos="fade-up" data-aos-delay="420">
+      <img src="images/ad.png" alt="Character sheet: the Student avatar customization">
     </figure>
   </div>
 </section>
